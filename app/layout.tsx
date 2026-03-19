@@ -1,16 +1,23 @@
 import type { Metadata } from 'next'
-import { Syne, DM_Sans, Cairo } from 'next/font/google'
+import { Outfit, Cairo } from 'next/font/google'
 import './globals.css'
 import { LanguageProvider } from '../components/LanguageProvider'
-import { PageLoader } from '../components/PageLoader'
+import { SmoothScroll } from '../components/SmoothScroll'
+import { LenisScrollBar } from '../components/LenisScrollBar'
 
-const syne = Syne({ subsets: ['latin'], variable: '--font-syne', weight: ['700', '800'] })
-const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-dm', weight: ['400', '500'] })
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', weight: ['400', '500', '600', '700'] })
 const cairo = Cairo({ subsets: ['arabic'], variable: '--font-cairo', weight: ['400', '700'] })
 
 export const metadata: Metadata = {
-  title: "WadNoun — Énergies Renouvelables",
-  description: "Expert en solutions d'énergie renouvelable au Maroc."
+  title: "WadNoun SARL — Infrastructure Électrique au Maroc",
+  description: "WadNoun SARL : travaux d'électrification, postes de transformation, éclairage public, distribution et contrôle électrique, économie d'énergie. Expertise terrain au Maroc depuis 2014.",
+  keywords: "électrification, postes de transformation, éclairage public, distribution électrique, économie d'énergie, infrastructure électrique, Maroc, ONEE, HTA, BT",
+  openGraph: {
+    title: "WadNoun SARL — Infrastructure Électrique au Maroc",
+    description: "Travaux d'électrification, postes de transformation, éclairage public, distribution et économie d'énergie. 200+ projets réalisés au Maroc.",
+    type: "website",
+    locale: "fr_MA",
+  },
 }
 
 export default function RootLayout({
@@ -19,10 +26,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" dir="ltr" className={`${syne.variable} ${dmSans.variable} ${cairo.variable}`}>
+    <html lang="fr" dir="ltr" className={`${outfit.variable} ${cairo.variable}`}>
       <body className="font-sans antialiased text-gray-800 bg-white selection:bg-primary/30 min-h-screen flex flex-col">
         <LanguageProvider>
-          <PageLoader />
+          <SmoothScroll />
+          <LenisScrollBar />
           {children}
         </LanguageProvider>
       </body>

@@ -101,13 +101,13 @@ export const TurbineSequence = () => {
       )}
 
       <video
-        ref={turbineRef} src="/turbine_fixed.mp4"
+        ref={turbineRef} src="/turb.mp4"
         muted playsInline preload="auto" // @ts-ignore
         fetchPriority="high"
-        className="absolute inset-0 w-full h-full object-cover opacity-90 will-change-[transform,filter]"
+        className="absolute inset-0 w-full h-full object-cover will-change-[transform]"
       />
 
-      <div className="absolute inset-0 pointer-events-none z-10 mix-blend-multiply" style={{ background: "radial-gradient(circle, transparent 30%, rgba(0,0,0,0.95) 100%)" }}></div>
+
       <div className="t-prog absolute bottom-0 left-0 h-1 bg-emerald-500 z-30" ref={tProgRef} style={{ width: '0%' }}></div>
 
       <div className="t-text absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none opacity-0 will-change-transform">

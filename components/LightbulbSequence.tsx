@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { useRef, useState, useEffect } from "react";
 import { useLanguage } from "./LanguageProvider";
+import { ArrowDown } from "lucide-react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -15,8 +16,6 @@ export const LightbulbSequence = () => {
   const bulbRef = useRef<HTMLVideoElement>(null);
   const { t } = useLanguage();
   const [isReady, setIsReady] = useState(false);
-
-  const tProgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const bulb = bulbRef.current;
@@ -77,7 +76,6 @@ export const LightbulbSequence = () => {
       onUpdate: (self) => {
         targetTime = self.progress * bulb.duration;
         animateText(self.progress, '.l-text');
-        if (tProgRef.current) tProgRef.current.style.width = `${self.progress * 100}%`;
       }
     });
 
@@ -88,27 +86,39 @@ export const LightbulbSequence = () => {
   }, { scope: containerRef, dependencies: [isReady] });
 
   return (
-    <section ref={containerRef} className="bg-black w-full h-screen overflow-hidden text-white font-sans relative">
+    <section ref={containerRef} data-navbar="light" className="bg-black w-full h-screen overflow-hidden text-white font-sans relative">
       {!isReady && (
         <div className="absolute inset-0 z-50 bg-black flex items-center justify-center">
           <div className="w-10 h-10 bg-blue-500 rounded-full animate-ping"></div>
         </div>
       )}
 
-      <video
-        ref={bulbRef} src="/lightbulb_fixed.mp4"
-        muted playsInline preload="auto" // @ts-ignore
-        fetchPriority="high"
-        className="absolute inset-0 w-full h-full object-cover opacity-90 will-change-[transform,filter]"
-      />
+      <div
+        className="absolute top-0 left-0 h-full overflow-hidden"
+        style={{ width: "calc(100% + 50px)", transform: "translateX(-50px)" }}
+      >
+        <video
+          ref={bulbRef}
+          src="/lightbulb.mp4"
+          muted
+          playsInline
+          preload="auto"
+          className="h-full w-full object-cover opacity-90 will-change-[transform,filter]"
+        />
+      </div>
 
       <div className="absolute inset-0 pointer-events-none z-10 mix-blend-multiply" style={{ background: "radial-gradient(circle, transparent 30%, rgba(0,0,0,0.95) 100%)" }}></div>
-      <div className="absolute bottom-0 left-0 h-1 bg-blue-500 z-30" ref={tProgRef} style={{ width: '0%' }}></div>
 
-      <div className="l-text absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none opacity-0 will-change-transform">
-        <h2 className="text-4xl md:text-7xl font-heading font-bold tracking-widest text-emerald-100 drop-shadow-2xl text-center leading-tight">
+      <div className="l-text absolute inset-0 z-20 flex flex-col items-end justify-center pointer-events-none opacity-0 will-change-transform pr-8 md:pr-16">
+        <h2 className="text-4xl md:text-7xl font-heading font-bold tracking-widest text-emerald-100 drop-shadow-2xl text-right leading-tight">
           {t("anime.light1")} <br /> {t("anime.light2")}
         </h2>
+      </div>
+
+      {/* Scroll indicator — placed on Services page (instead of homepage) */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40 pointer-events-none z-30">
+        <span className="text-xs tracking-[0.3em] uppercase font-bold">Scroll</span>
+        <ArrowDown size={16} className="animate-bounce" />
       </div>
     </section>
   );

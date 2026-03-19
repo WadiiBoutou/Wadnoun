@@ -3,8 +3,8 @@
 @theme {
   --color-primary: #b4ce49;
   --color-secondary: #3747b6;
-  --font-sans: var(--font-dm), sans-serif;
-  --font-heading: var(--font-syne), sans-serif;
+  --font-sans: var(--font-outfit), sans-serif;
+  --font-heading: var(--font-outfit), sans-serif;
   --font-arabic: var(--font-cairo), sans-serif;
 }
 
@@ -13,8 +13,64 @@
   --foreground: #171717;
 }
 
+/* ── Custom scrollbar vars (matches LenisScrollBar component) ── */
+:root {
+  --scrollbar-width: 14px;
+  --scrollbar-padding: 3px;
+}
+
+/* Hide the native scrollbar — replaced by the LenisScrollBar component */
+html {
+  scrollbar-width: none; /* Firefox */
+}
+::-webkit-scrollbar {
+  display: none; /* Chrome / Safari / Edge */
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   overflow-x: hidden;
+}
+
+.logo-black {
+  filter: brightness(0);
+}
+
+@keyframes drawer-gradient-sweep {
+  from {
+    left: 100%;
+  }
+  to {
+    left: -100%;
+  }
+}
+
+/* ── WhatsApp floating button ── */
+.whatsapp-btn {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background: linear-gradient(145deg, #25D366 0%, #20BD5A 40%, #128C7E 100%);
+  color: #fff;
+  box-shadow:
+    0 4px 14px rgba(37, 211, 102, 0.45),
+    0 2px 6px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.whatsapp-btn:hover {
+  box-shadow:
+    0 6px 20px rgba(37, 211, 102, 0.55),
+    0 3px 10px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  animation: whatsapp-twitch 0.4s ease;
+}
+.whatsapp-btn:active {
+  transform: scale(0.95);
+}
+@keyframes whatsapp-twitch {
+  0%, 100% { transform: scale(1); }
+  40% { transform: scale(1.15); }
+  70% { transform: scale(0.98); }
 }

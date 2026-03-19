@@ -5,48 +5,61 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 export const Hero = () => {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const container = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    const tl = gsap.timeline();
-    tl.to(".hero-text", { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: "power3.out" })
-      .to(".hero-btn", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.7)" }, "-=0.4")
-      .to(".stat-item", { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power2.out" }, "-=0.2");
+    const tl = gsap.timeline({ delay: 0.3 });
+    tl.to(".hero-line", { opacity: 1, y: 0, duration: 1.2, stagger: 0.15, ease: "power3.out" })
+      .to(".hero-sub", { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, "-=0.5")
+      .to(".hero-cta", { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "power2.out" }, "-=0.3")
+      ;
   }, { scope: container });
 
   return (
-    <section ref={container} className="relative w-full bg-slate-50 flex flex-col items-center pt-32 pb-20">
-      <div className="container mx-auto px-6 text-center max-w-4xl pt-10">
-        <h1 className="hero-text opacity-0 translate-y-8 text-5xl md:text-7xl font-heading font-bold text-gray-900 leading-tight mb-6">
-          {t("home.hero.title")}
-        </h1>
-        <p className="hero-text opacity-0 translate-y-8 text-lg md:text-xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed">
+    <section ref={container} data-navbar="light" className="relative w-full min-h-screen bg-[#0a0f0d] flex flex-col justify-center overflow-hidden">
+      {/* Background image with overlay */}
+      <div className="absolute inset-0">
+        <img 
+          src="/about.webp" 
+          alt="" 
+          className="w-full h-full object-cover opacity-30"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f0d]/60 via-transparent to-[#0a0f0d]"></div>
+      </div>
+
+      <div className="relative z-10 container mx-auto px-6 md:px-16 pt-32 pb-20">
+        {/* Giant heading — Breakthrough Energy style */}
+        <div className="max-w-6xl">
+          <h1 className="font-heading font-extrabold leading-[0.95] tracking-tight text-white">
+            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2.5rem,8vw,7rem)]">
+              Infrastructure
+            </span>
+            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2.5rem,8vw,7rem)]">
+              Électrique
+            </span>
+            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2.5rem,8vw,7rem)] text-primary">
+              au Maroc
+            </span>
+          </h1>
+        </div>
+
+        <p className="hero-sub opacity-0 translate-y-8 text-lg md:text-xl text-white/60 max-w-2xl mt-10 leading-relaxed font-medium">
           {t("home.hero.subtitle")}
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link href="/services" className="hero-btn opacity-0 scale-90 bg-primary text-gray-900 font-bold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all w-full sm:w-auto">
+
+        <div className="flex flex-col sm:flex-row gap-4 mt-12">
+          <Link href="/services" className="hero-cta opacity-0 translate-y-6 bg-primary text-[#0a0f0d] font-bold px-8 py-4 rounded-full hover:bg-primary/90 transition-all text-center">
             {t("home.hero.cta1")}
           </Link>
-          <Link href="/contact" className="hero-btn opacity-0 scale-90 border-2 border-primary text-primary font-bold px-8 py-4 rounded-full hover:bg-primary/5 transition-all w-full sm:w-auto">
+          <Link href="/contact" className="hero-cta opacity-0 translate-y-6 border border-white/30 text-white font-bold px-8 py-4 rounded-full hover:bg-white/5 transition-all text-center">
             {t("home.hero.cta2")}
           </Link>
         </div>
       </div>
 
-      <div className="container mx-auto px-6 mt-20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 bg-white p-8 md:p-12 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="stat-item opacity-0 translate-y-4 flex flex-col items-center justify-center text-center">
-              <span className="text-4xl md:text-5xl font-heading font-extrabold text-secondary mb-2">{t(`home.stats.v${i}`)}</span>
-              <span className="text-sm font-bold text-gray-500 uppercase tracking-wider">{t(`home.stats.l${i}`)}</span>
-            </div>
-          ))}
-        </div>
-      </div>
     </section>
   );
 };

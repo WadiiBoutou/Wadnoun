@@ -1,22 +1,43 @@
 "use client";
 
 import { useLanguage } from "./LanguageProvider";
+import Link from "next/link";
 
 export const Footer = () => {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   
   return (
-    <footer className="bg-secondary text-white py-12 border-t border-white/10">
-      <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-start">
-        <div>
-          <h3 className="text-2xl font-bold tracking-wider mb-2">WADNOUN AD <span className="text-primary">SARL</span></h3>
-          <p className="text-white/70 max-w-sm leading-relaxed">
-            Travaux d'Électrification, Postes de Transformation, Éclairage Public, Distribution Et Controle Électrique, Économie d'Énergie
-          </p>
+    <footer data-navbar="light" className="bg-[#0a0f0d] text-white py-20 border-t border-white/5">
+      <div className="container mx-auto px-6 md:px-16">
+        <div className="grid md:grid-cols-3 gap-16 mb-16">
+          <div>
+            <h3 className="text-2xl font-heading font-bold tracking-wider mb-4">WADNOUN AD <span className="text-primary">SARL</span></h3>
+            <p className="text-white/40 leading-relaxed max-w-sm">
+              {language === "fr" 
+                ? "Spécialiste en infrastructure électrique au Maroc — électrification, postes de transformation, éclairage public, distribution et économie d'énergie."
+                : "متخصص في البنية التحتية الكهربائية بالمغرب — تكهرب، محطات تحويل، إنارة عمومية، توزيع واقتصاد طاقة."
+              }
+            </p>
+          </div>
+          <div>
+            <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-white/60 mb-6">{t("nav.services")}</h4>
+            <div className="flex flex-col gap-3">
+              <Link href="/a-propos" className="text-white/40 hover:text-primary transition-colors">{t("nav.about")}</Link>
+              <Link href="/services" className="text-white/40 hover:text-primary transition-colors">{t("nav.services")}</Link>
+              <Link href="/contact" className="text-white/40 hover:text-primary transition-colors">{t("nav.contact")}</Link>
+            </div>
+          </div>
+          <div>
+            <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-white/60 mb-6">Contact</h4>
+            <div className="flex flex-col gap-3 text-white/40">
+              <span>contact@wadnoun.ma</span>
+              <span>+212 6XX XX XX XX</span>
+              <span>Agadir, Maroc</span>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-2 items-center md:items-end">
-          <p className="text-white/90">Copyright © {new Date().getFullYear()} WADNOUN AD SARL.</p>
-          <p className="text-white/60 text-sm">{language === 'fr' ? "Tous droits réservés." : "جميع الحقوق محفوظة."}</p>
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-white/30 text-sm">© {new Date().getFullYear()} WADNOUN AD SARL. {language === 'fr' ? "Tous droits réservés." : "جميع الحقوق محفوظة."}</p>
         </div>
       </div>
     </footer>

@@ -1,71 +1,261 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useLanguage } from "./LanguageProvider";
-import { Globe, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import gsap from "gsap";
+
+const PISTACHIO = "#c8e63a";
+
+const drawerSweepGradient =
+  "linear-gradient(to right, rgba(223,255,92,0.8), rgba(223,255,92,0.592) 19%, rgba(223,255,92,0.43) 34%, rgba(223,255,92,0.306) 47%, rgba(223,255,92,0.157) 65%, rgba(223,255,92,0.06) 80%, rgba(223,255,92,0) 98%)";
+
+const THRESHOLDS = Array.from({ length: 21 }, (_, i) => i * 0.05);
+const TRANSITION = "color 0.3s ease, filter 0.3s ease, opacity 0.3s ease";
 
 export const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const { language, setLanguage, t } = useLanguage();
-  const pathname = usePathname();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { language, setLanguage } = useLanguage();
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // "light" = navbar over dark bg → elements are white
+  // "dark"  = navbar over light/lime bg → elements are black
+  const [navTheme, setNavTheme] = useState<"light" | "dark">("light");
 
   const toggleLang = () => setLanguage(language === "fr" ? "ar" : "fr");
-  
-  // Fix text color constraints: If not on homepage, always use dark text unless scrolled overriding
-  const isDarkCondition = scrolled || pathname !== "/";
+  const closeDrawer = () => setIsDrawerOpen(false);
+
+  // IntersectionObserver — pick dominant [data-navbar] section
+  useEffect(() => {
+    let observer: IntersectionObserver | null = null;
+    const ratioMap = new Map<Element, number>();
+
+    const timer = setTimeout(() => {
+      const sections = document.querySelectorAll<HTMLElement>("[data-navbar]");
+      if (!sections.length) return;
+
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            ratioMap.set(
+              entry.target,
+              entry.isIntersecting ? entry.intersectionRatio : 0
+            );
+          });
+
+          let bestRatio = 0;
+          let bestTheme: "light" | "dark" = "light";
+          ratioMap.forEach((ratio, el) => {
+            if (ratio > bestRatio) {
+              bestRatio = ratio;
+              bestTheme = (el as HTMLElement).dataset.navbar as "light" | "dark";
+            }
+          });
+
+          if (bestRatio > 0) setNavTheme(bestTheme);
+        },
+        { threshold: THRESHOLDS }
+      );
+
+      sections.forEach((s) => {
+        ratioMap.set(s, 0);
+        observer!.observe(s);
+      });
+    }, 120);
+
+    return () => {
+      clearTimeout(timer);
+      observer?.disconnect();
+    };
+  }, []);
+
+  // Drawer open/close animation
+  useEffect(() => {
+    if (!drawerRef.current || !overlayRef.current) return;
+
+    if (isDrawerOpen) {
+      gsap.set(overlayRef.current, { display: "block", opacity: 0 });
+      gsap.set(drawerRef.current, { x: "100%", opacity: 0, scale: 0.97 });
+      gsap.to(overlayRef.current, { opacity: 1, duration: 0.4, ease: "power2.out" });
+      gsap.to(drawerRef.current, { x: "0%", opacity: 1, scale: 1, duration: 0.6, ease: "expo.out" });
+      gsap.fromTo(
+        ".nav-item",
+        { x: 40, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.5, stagger: 0.09, ease: "power3.out", delay: 0.28 }
+      );
+    } else {
+      gsap.to(drawerRef.current, { x: "100%", opacity: 0, scale: 0.97, duration: 0.45, ease: "power3.in" });
+      gsap.to(overlayRef.current, { opacity: 0, duration: 0.35, ease: "power2.in" }).then(() => {
+        gsap.set(overlayRef.current, { display: "none" });
+      });
+    }
+  }, [isDrawerOpen]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeDrawer();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  const navLinks = [
+    { href: "/", label: "Accueil" },
+    { href: "/a-propos", label: "Propos" },
+    { href: "/services", label: "Services" },
+    { href: "/contact", label: "Contact" },
+  ];
+
+  const isDark = navTheme === "dark"; // navbar sits on a light/lime section
+
+  const elemColor = isDark ? "#0e1a0a" : "#ffffff";
+  const logoFilter = isDark
+    ? "brightness(0)"
+    : "brightness(0) invert(1) drop-shadow(0 0 12px rgba(255,255,255,0.55))";
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? "bg-white/70 backdrop-blur-md shadow-sm border-b border-white/10 py-3" : "bg-transparent py-5"}`}>
-      <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
-        <Link href="/" className="flex items-center gap-4">
-          <img src="/LOGO-1.png" alt="WadNoun SARL" className="h-10 md:h-12 w-auto object-contain drop-shadow-sm" />
-          <span className={`font-heading font-bold text-lg md:text-xl tracking-wider ${isDarkCondition ? "text-secondary" : "text-white"}`}>
-            WADNOUN AD <span className="text-primary">SARL</span>
-          </span>
-        </Link>
+    <div className="contents">
+      {/* Top Nav Bar */}
+      <nav className="fixed left-0 right-0 top-8 z-50 flex items-center justify-between px-6 md:px-12 pointer-events-none">
 
-        {/* Desktop */}
-        <div className="hidden md:flex items-center gap-8">
-          <Link href="/" className={`font-bold hover:text-primary transition-colors ${isDarkCondition ? "text-gray-800" : "text-white"}`}>{t("nav.home")}</Link>
-          <Link href="/a-propos" className={`font-bold hover:text-primary transition-colors ${isDarkCondition ? "text-gray-800" : "text-white"}`}>{t("nav.about")}</Link>
-          <Link href="/services" className={`font-bold hover:text-primary transition-colors ${isDarkCondition ? "text-gray-800" : "text-white"}`}>{t("nav.services")}</Link>
-          <Link href="/contact" className={`font-bold hover:text-primary transition-colors ${isDarkCondition ? "text-gray-800" : "text-white"}`}>{t("nav.contact")}</Link>
-          
-          <button onClick={toggleLang} className={`flex items-center gap-2 font-bold hover:text-primary transition-colors ${isDarkCondition ? "text-gray-800" : "text-white"}`}>
-            <Globe size={20} />
-            {language === "fr" ? "عربي" : "Français"}
+        {/* Language toggle */}
+        <div className="pointer-events-auto" style={{ color: elemColor, transition: TRANSITION }}>
+          <button
+            type="button"
+            onClick={toggleLang}
+            className="text-sm hover:opacity-70 transition-opacity tracking-widest font-bold drop-shadow"
+            aria-label={language === "fr" ? "Switch to Arabic" : "Passer en français"}
+          >
+            <span className={language === "fr" ? "opacity-100" : "opacity-40"}>FR</span>
+            <span className="mx-2 opacity-30">|</span>
+            <span className={language === "ar" ? "opacity-100" : "opacity-40"}>AR</span>
           </button>
         </div>
 
-        {/* Mobile */}
-        <button className={`md:hidden ${isDarkCondition ? 'text-gray-800' : 'text-white'}`} onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
+        {/* Logo */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-auto">
+          <Link href="/" className="block w-[72px] transition-transform hover:scale-105">
+            <img
+              src="/LOGO-2.png"
+              alt="WadNoun SARL"
+              className="w-full h-auto object-contain"
+              style={{ filter: logoFilter, transition: TRANSITION }}
+            />
+          </Link>
+        </div>
+
+        {/* Hamburger */}
+        <div className="pointer-events-auto" style={{ color: elemColor, transition: TRANSITION }}>
+          <button
+            type="button"
+            onClick={() => setIsDrawerOpen(true)}
+            className="hover:opacity-70 transition-opacity drop-shadow"
+            aria-label="Open menu"
+          >
+            <Menu className="w-7 h-7" strokeWidth={1.5} style={{ color: "inherit" }} />
+          </button>
+        </div>
+      </nav>
+
+      {/* Dim overlay with sweep */}
+      <div
+        ref={overlayRef}
+        role="button"
+        tabIndex={0}
+        aria-label="Close menu"
+        className="fixed inset-0 bg-black/55 z-[69] cursor-pointer"
+        style={{ display: "none" }}
+        onClick={closeDrawer}
+        onKeyDown={(e) => e.key === "Escape" && closeDrawer()}
+      >
+        <div
+          className="pointer-events-none"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "100%",
+            width: "100%",
+            height: "100%",
+            opacity: 0.64,
+            background: drawerSweepGradient,
+            animation: "drawer-gradient-sweep 5s linear infinite",
+          }}
+        />
+        <div
+          className="pointer-events-none"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "100%",
+            width: "100%",
+            height: "100%",
+            opacity: 0.64,
+            background: drawerSweepGradient,
+            animation: "drawer-gradient-sweep 5s linear infinite",
+            animationDelay: "2.5s",
+          }}
+        />
       </div>
 
-      {isOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-md shadow-lg py-6 px-6 flex flex-col gap-4 text-center border-t border-gray-100">
-          <Link href="/" onClick={() => setIsOpen(false)} className="text-gray-800 font-bold text-lg py-2">{t("nav.home")}</Link>
-          <Link href="/a-propos" onClick={() => setIsOpen(false)} className="text-gray-800 font-bold text-lg py-2">{t("nav.about")}</Link>
-          <Link href="/services" onClick={() => setIsOpen(false)} className="text-gray-800 font-bold text-lg py-2">{t("nav.services")}</Link>
-          <Link href="/contact" onClick={() => setIsOpen(false)} className="text-gray-800 font-bold text-lg py-2">{t("nav.contact")}</Link>
-          <button onClick={() => { toggleLang(); setIsOpen(false); }} className="text-primary font-bold text-lg py-2">
-            {language === "fr" ? "Changer en Arabe" : "تغيير إلى الفرنسية"}
-          </button>
+      {/* Floating pistachio drawer */}
+      <div
+        ref={drawerRef}
+        className="fixed z-[80] flex flex-col rounded-2xl overflow-hidden shadow-2xl"
+        style={{
+          top: "1.5rem",
+          right: "1.5rem",
+          bottom: "1.5rem",
+          width: "min(400px, calc(100vw - 3rem))",
+          backgroundColor: PISTACHIO,
+          transform: "translateX(110%)",
+          opacity: 0,
+        }}
+      >
+        <nav className="relative flex flex-col justify-center flex-grow px-10 pt-6 z-10">
+          {navLinks.map((link, i) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={closeDrawer}
+              className={`nav-item flex items-center justify-between group text-[#0e1a0a] font-heading font-semibold text-4xl py-5 opacity-0 transition-all duration-300 hover:pl-3 ${
+                i < navLinks.length - 1 ? "border-b border-black/15" : ""
+              }`}
+            >
+              {link.label}
+              <span className="text-xs font-sans font-normal text-black/30 tracking-widest group-hover:text-black/60 transition-colors">
+                0{i + 1}
+              </span>
+            </Link>
+          ))}
+        </nav>
+
+        <div className="relative z-10 px-10 pb-7 flex items-center justify-between">
+          <span className="text-[11px] font-bold text-black/30 tracking-widest uppercase">WadNoun SARL</span>
+          <span className="text-[11px] text-black/30">© {new Date().getFullYear()}</span>
         </div>
-      )}
-    </nav>
+      </div>
+
+      {/* Close button */}
+      <button
+        onClick={closeDrawer}
+        aria-label="Close menu"
+        className="fixed z-[81] flex items-center justify-center rounded-sm shadow-lg hover:scale-110 transition-transform"
+        style={{
+          backgroundColor: PISTACHIO,
+          top: "50%",
+          right: `calc(min(400px, calc(100vw - 3rem)) + 1.5rem + 10px)`,
+          transform: "translateY(-50%)",
+          width: "34px",
+          height: "34px",
+          visibility: isDrawerOpen ? "visible" : "hidden",
+          pointerEvents: isDrawerOpen ? "auto" : "none",
+          opacity: isDrawerOpen ? 1 : 0,
+        }}
+      >
+        <X className="w-4 h-4 text-[#0e1a0a]" strokeWidth={2.5} />
+      </button>
+    </div>
   );
 };
