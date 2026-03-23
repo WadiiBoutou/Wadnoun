@@ -7,7 +7,9 @@ import { useRef } from "react";
 
 export const WhatsAppButton = () => {
   const { language } = useLanguage();
-  const phoneNumber = "212602606041";
+  // Display format requested by the user; wa.me requires digits-only.
+  const phoneNumber = "+212602-606041";
+  const waMeNumber = phoneNumber.replace(/\D/g, "");
   const message = "Bonjour STÉ WADNOUN AD SARL, je souhaite avoir plus d'informations.";
   const btnRef = useRef<HTMLAnchorElement>(null);
 
@@ -24,7 +26,7 @@ export const WhatsAppButton = () => {
   return (
     <a
       ref={btnRef}
-      href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`}
+      href={`https://wa.me/${waMeNumber}?text=${encodeURIComponent(message)}`}
       target="_blank"
       rel="noopener noreferrer"
       className={`fixed opacity-0 scale-50 ${language === 'fr' ? 'right-6' : 'left-6'} bottom-6 z-50 rounded-full flex items-center justify-center whatsapp-btn`}

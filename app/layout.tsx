@@ -5,15 +5,18 @@ import { LanguageProvider } from '../components/LanguageProvider'
 import { SmoothScroll } from '../components/SmoothScroll'
 import { LenisScrollBar } from '../components/LenisScrollBar'
 
-const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', weight: ['400', '500', '600', '700'] })
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', weight: ['400', '500', '600', '700', '800', '900'] })
 const cairo = Cairo({ subsets: ['arabic'], variable: '--font-cairo', weight: ['400', '700'] })
 
 export const metadata: Metadata = {
-  title: "WadNoun SARL — Infrastructure Électrique au Maroc",
+  title: "WadNoun",
   description: "WadNoun SARL : travaux d'électrification, postes de transformation, éclairage public, distribution et contrôle électrique, économie d'énergie. Expertise terrain au Maroc depuis 2014.",
   keywords: "électrification, postes de transformation, éclairage public, distribution électrique, économie d'énergie, infrastructure électrique, Maroc, ONEE, HTA, BT",
+  icons: {
+    icon: "/weblogo.webp",
+  },
   openGraph: {
-    title: "WadNoun SARL — Infrastructure Électrique au Maroc",
+    title: "WadNoun",
     description: "Travaux d'électrification, postes de transformation, éclairage public, distribution et économie d'énergie. 200+ projets réalisés au Maroc.",
     type: "website",
     locale: "fr_MA",

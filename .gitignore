@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Large Spline export — keep locally; too heavy for reliable git push
+/public/scene.splinecode

@@ -2,13 +2,13 @@ import { Navbar } from "../../components/Navbar";
 import { Footer } from "../../components/Footer";
 import { WhatsAppButton } from "../../components/WhatsAppButton";
 import { AboutContent } from "../../components/AboutContent";
-import { AboutHeroVideo } from "../../components/AboutHeroVideo";
+import { AboutHero } from "../../components/AboutHero";
 
 export default function AProposPage() {
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
-      <AboutHeroVideo />
+      <AboutHero />
       <AboutContent />
       <Footer />
       <WhatsAppButton />

@@ -14,6 +14,9 @@ if (typeof window !== "undefined") {
 export const ContactContent = () => {
   const { t, language } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
+  // Display format requested by the user; wa.me requires digits-only.
+  const phoneNumber = "+212602-606041";
+  const waMeNumber = phoneNumber.replace(/\D/g, "");
 
   useGSAP(() => {
     gsap.utils.toArray<HTMLElement>(".reveal").forEach((el) => {
@@ -106,7 +109,12 @@ export const ContactContent = () => {
 
               <div className="bg-[#25D366]/10 border border-[#25D366]/20 p-8 rounded-2xl mt-auto">
                 <p className="text-base text-gray-700 mb-5 leading-relaxed">{t("contact.wa.text")}</p>
-                <a href="https://wa.me/212602606041" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-[#25D366] text-white font-bold px-7 py-3.5 rounded-full hover:scale-[1.03] transition-transform shadow-lg shadow-[#25D366]/30">
+                <a
+                  href={`https://wa.me/${waMeNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 bg-[#25D366] text-white font-bold px-7 py-3.5 rounded-full hover:scale-[1.03] transition-transform shadow-lg shadow-[#25D366]/30"
+                >
                   <MessageCircle size={22} />
                   {t("contact.wa.btn")}
                 </a>

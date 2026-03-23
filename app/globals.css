@@ -74,3 +74,10 @@ body {
   40% { transform: scale(1.15); }
   70% { transform: scale(0.98); }
 }
+
+/* ── Ensure 3D interactive canvases (Spline) don't block page scrolling ── */
+canvas {
+  touch-action: pan-y !important;
+}
+
+/* (Removed: services text clamping to prevent cropping) */

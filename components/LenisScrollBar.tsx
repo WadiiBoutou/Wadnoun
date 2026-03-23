@@ -6,76 +6,55 @@ import { onScrollProgress, scrollTo } from "./lenis-bus";
 const W = 14;   // --scrollbar-width
 const P = 3;    // --scrollbar-padding
 const THUMB_W = W - P * 2; // 8px
+const PISTACHIO = "#c8e63a";
 
 export const LenisScrollBar = () => {
-  const [progress, setProgress] = useState(0);
   const [thumbH, setThumbH] = useState(60);
-  const [viewH, setViewH] = useState(0);
   const [gutterVisible, setGutterVisible] = useState(false);
 
   const isDragging = useRef(false);
   const dragStartY = useRef(0);
   const dragStartProgress = useRef(0);
+  
+  const containerRef = useRef<HTMLDivElement>(null);
+  const thumbRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef(0);
+  const viewHRef = useRef(0);
+  const trackLenRef = useRef(0);
 
-  // Refs to avoid stale closures in rAF sync loop
-  const progressRef = useRef(progress);
-  const thumbHRef = useRef(thumbH);
-  const viewHRef = useRef(viewH);
-
-  useEffect(() => {
-    progressRef.current = progress;
-  }, [progress]);
-  useEffect(() => {
-    thumbHRef.current = thumbH;
-  }, [thumbH]);
-  useEffect(() => {
-    viewHRef.current = viewH;
-  }, [viewH]);
-
-  // ── Sizes ──────────────────────────────────────────────────────────────────
+  // ── Sync Sizes ───────────────────────────────────────────────────────────
   useEffect(() => {
     const recalc = () => {
       const vh = window.innerHeight;
       const docH = document.documentElement.scrollHeight || 1;
       const nextThumbH = Math.min(200, Math.max(30, vh * (vh / docH)));
-      setViewH(vh);
+      
+      viewHRef.current = vh;
       setThumbH(nextThumbH);
+      trackLenRef.current = Math.max(0, vh - nextThumbH);
     };
 
     recalc();
     window.addEventListener("resize", recalc);
-    return () => {
-      window.removeEventListener("resize", recalc);
-    };
+    return () => window.removeEventListener("resize", recalc);
   }, []);
 
-  // ── Progress from Lenis ───────────────────────────────────────────────────
-  useEffect(() => {
-    return onScrollProgress((scroll, limit) => {
-      // Prefer Lenis values when available, but keep DOM fallback below as safety.
-      const ratio = limit > 0 ? scroll / limit : 0;
-      setProgress(ratio);
-    });
-  }, []);
-
-  // DOM fallback sync (most reliable with ScrollTrigger pinned sections)
+  // ── Sync Animation Loop (Perfect Sync) ───────────────────────────────────
   useEffect(() => {
     let raf = 0;
-    const EPS = 0.0006; // avoid setState each frame
 
     const loop = () => {
-      const vh = window.innerHeight;
-      const docH = document.documentElement.scrollHeight || 1;
-      const maxScroll = docH - vh;
-      const nextRatio = maxScroll > 0 ? window.scrollY / maxScroll : 0;
-
-      // Keep thumb height accurate as content loads (images/videos, pinned sections)
-      const nextThumbH = Math.min(200, Math.max(30, vh * (vh / docH)));
-
-      if (Math.abs(vh - viewHRef.current) > 1) setViewH(vh);
-      if (Math.abs(nextThumbH - thumbHRef.current) > 1) setThumbH(nextThumbH);
-      if (Math.abs(nextRatio - progressRef.current) > EPS) setProgress(nextRatio);
-
+      if (!isDragging.current && thumbRef.current) {
+        // Sync progress from window.scrollY for DOM-perfect alignment with Lenis
+        const docH = document.documentElement.scrollHeight || 1;
+        const maxScroll = docH - viewHRef.current;
+        const ratio = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+        
+        progressRef.current = ratio;
+        
+        const top = ratio * trackLenRef.current;
+        thumbRef.current.style.transform = `translate3d(0, ${top}px, 0)`;
+      }
       raf = requestAnimationFrame(loop);
     };
 
@@ -83,87 +62,80 @@ export const LenisScrollBar = () => {
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  // ── Computed thumb top ────────────────────────────────────────────────────
-  const trackLen = Math.max(0, viewH - thumbH);
-  const thumbTop = progress * trackLen;
-
-  // ── Gutter hover ──────────────────────────────────────────────────────────
-  const showGutter = useCallback(() => setGutterVisible(true), []);
-  const hideGutter = useCallback(() => {
-    if (!isDragging.current) setGutterVisible(false);
-  }, []);
-
-  // ── Gutter click — jump to position ──────────────────────────────────────
+  // ── Gutter Click (Jump) ──────────────────────────────────────────────────
   const onGutterClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
-      // Ignore if a drag just finished
       if (isDragging.current) return;
+      
+      const vh = viewHRef.current;
+      const trackLen = trackLenRef.current;
       if (trackLen <= 0) return;
+
       const rect = e.currentTarget.getBoundingClientRect();
       const clickY = e.clientY - rect.top;
       const newProgress = Math.max(0, Math.min(1, (clickY - thumbH / 2) / trackLen));
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const maxScroll = document.documentElement.scrollHeight - vh;
+      
       scrollTo(newProgress * maxScroll);
     },
-    [thumbH, trackLen]
+    [thumbH]
   );
 
-  // ── Thumb drag ────────────────────────────────────────────────────────────
+  // ── Thumb Drag ────────────────────────────────────────────────────────────
   const onThumbMouseDown = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
       isDragging.current = true;
       dragStartY.current = e.clientY;
-      dragStartProgress.current = progress;
+      dragStartProgress.current = progressRef.current;
 
       const onMove = (ev: MouseEvent) => {
-        if (!isDragging.current) return;
+        if (!isDragging.current || !thumbRef.current) return;
+        const trackLen = trackLenRef.current;
         if (trackLen <= 0) return;
+
         const delta = ev.clientY - dragStartY.current;
         const newP = Math.max(0, Math.min(1, dragStartProgress.current + delta / trackLen));
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        scrollTo(newP * maxScroll, true); // immediate — no smoothing during drag
+        const maxScroll = document.documentElement.scrollHeight - viewHRef.current;
+        
+        // Update visual thumb immediately during drag
+        const top = newP * trackLen;
+        thumbRef.current.style.transform = `translate3d(0, ${top}px, 0)`;
+        
+        // Scroll the page immediately (immediate: true)
+        scrollTo(newP * maxScroll, true);
       };
 
       const onUp = () => {
         isDragging.current = false;
         document.removeEventListener("mousemove", onMove);
         document.removeEventListener("mouseup", onUp);
-        // Hide gutter if mouse is no longer over the scrollbar
         setGutterVisible(false);
       };
 
       document.addEventListener("mousemove", onMove);
       document.addEventListener("mouseup", onUp);
     },
-    [progress, trackLen]
+    []
   );
 
   return (
     <div
+      ref={containerRef}
       style={{
         position: "fixed",
         right: 0,
         top: 0,
         width: W,
         height: "100lvh",
-        // Must stay above pinned/stacked sections so hover works everywhere.
         zIndex: 999999,
-        // This element is small (14px wide). We allow pointer events here so
-        // hover/click/drag reliably targets gutter + thumb.
         pointerEvents: "auto",
       }}
-      onMouseEnter={showGutter}
-      onMouseLeave={hideGutter}
+      onMouseEnter={() => setGutterVisible(true)}
+      onMouseLeave={() => { if (!isDragging.current) setGutterVisible(false); }}
     >
-      {/*
-        Gutter / Track
-        ─ covers the full 14px strip
-        ─ opacity 0 by default, 1 on hover (isGutterRollOver behaviour)
-        ─ white semi-transparent background (#fffc) with left border
-        ─ pointer-events: auto so it receives hover + click events
-      */}
+      {/* Track */}
       <div
         onClick={onGutterClick}
         style={{
@@ -172,40 +144,35 @@ export const LenisScrollBar = () => {
           background: "#fffc",
           borderLeft: "1px solid #d9d9d9",
           opacity: gutterVisible ? 1 : 0,
-          transition: "opacity 0.3s",
-          pointerEvents: "auto",
+          transition: "opacity 0.3s ease",
           cursor: "default",
-          boxSizing: "border-box",
         }}
       />
 
-      {/* Thumb hitbox (14px wide) for reliable dragging */}
+      {/* Thumb */}
       <div
+        ref={thumbRef}
         onMouseDown={onThumbMouseDown}
         style={{
           position: "absolute",
           left: 0,
           width: W,
-          top: thumbTop,
           height: thumbH,
-          pointerEvents: "auto",
           cursor: "ns-resize",
           zIndex: 2,
-          userSelect: "none",
-          transition: isDragging.current ? "none" : "top 0.08s linear",
-          background: "transparent",
+          willChange: "transform",
         }}
       >
-        {/* Visible thumb (8px wide) */}
         <div
           style={{
             position: "absolute",
             left: P,
             width: THUMB_W,
             top: 0,
-            height: "100%",
+            bottom: 0,
             background: "#1a1a1a",
             borderRadius: 999,
+            boxShadow: `inset 0 0 0 1px ${PISTACHIO}`,
           }}
         />
       </div>

@@ -4,7 +4,13 @@ import { useLanguage } from "./LanguageProvider";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
+
+const SplineScene = dynamic(() => import("./SplineScene").then(m => m.SplineScene), {
+  ssr: false,
+  loading: () => <div className="absolute inset-0 bg-[#0a0f0d]" />
+});
 
 export const Hero = () => {
   const { t } = useLanguage();
@@ -20,41 +26,42 @@ export const Hero = () => {
 
   return (
     <section ref={container} data-navbar="light" className="relative w-full min-h-screen bg-[#0a0f0d] flex flex-col justify-center overflow-hidden">
-      {/* Background image with overlay */}
-      <div className="absolute inset-0">
-        <img 
-          src="/about.webp" 
-          alt="" 
-          className="w-full h-full object-cover opacity-30"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f0d]/60 via-transparent to-[#0a0f0d]"></div>
+      {/* 3D Spline Backdrop with scroll fix */}
+      <SplineScene />
+
+      {/* Shadow Overlays */}
+      <div className="absolute inset-0 z-[1] pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f0d]/60 via-transparent to-[#0a0f0d] opacity-100 mix-blend-multiply"></div>
+        <div className="absolute inset-0 bg-[#0a0f0d]/30"></div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-6 md:px-16 pt-32 pb-20">
-        {/* Giant heading — Breakthrough Energy style */}
+      {/* Content container now has pointer-events-none to let you 'reach through' to the Spline backdrop */}
+      <div className="relative z-10 container mx-auto px-6 md:px-16 pt-32 pb-20 pointer-events-none">
+        {/* Giant heading — Style matches home hero */}
         <div className="max-w-6xl">
-          <h1 className="font-heading font-extrabold leading-[0.95] tracking-tight text-white">
-            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2.5rem,8vw,7rem)]">
+          <h1 className="font-heading font-extrabold leading-[0.95] tracking-tight text-white select-none">
+            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2.2rem,7vw,5.5rem)] lg:text-[clamp(3.5rem,8vw,6.5rem)]">
               Infrastructure
             </span>
-            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2.5rem,8vw,7rem)]">
+            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2.2rem,7vw,5.5rem)] lg:text-[clamp(3.5rem,8vw,6.5rem)]">
               Électrique
             </span>
-            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2.5rem,8vw,7rem)] text-primary">
+            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2.2rem,7vw,5.5rem)] lg:text-[clamp(3.5rem,8vw,6.5rem)] text-primary">
               au Maroc
             </span>
           </h1>
         </div>
 
-        <p className="hero-sub opacity-0 translate-y-8 text-lg md:text-xl text-white/60 max-w-2xl mt-10 leading-relaxed font-medium">
+        <p className="hero-sub opacity-0 translate-y-8 text-base md:text-xl lg:text-lg xl:text-xl text-white/60 max-w-2xl mt-10 leading-relaxed font-medium select-none">
           {t("home.hero.subtitle")}
         </p>
 
+        {/* Individual buttons keep pointer-events-auto so you can still click them */}
         <div className="flex flex-col sm:flex-row gap-4 mt-12">
-          <Link href="/services" className="hero-cta opacity-0 translate-y-6 bg-primary text-[#0a0f0d] font-bold px-8 py-4 rounded-full hover:bg-primary/90 transition-all text-center">
+          <Link href="/services" className="hero-cta opacity-0 translate-y-6 bg-primary text-[#0a0f0d] font-bold px-7 py-3.5 md:px-8 md:py-4 rounded-full hover:bg-primary/90 transition-all text-center text-sm md:text-base pointer-events-auto">
             {t("home.hero.cta1")}
           </Link>
-          <Link href="/contact" className="hero-cta opacity-0 translate-y-6 border border-white/30 text-white font-bold px-8 py-4 rounded-full hover:bg-white/5 transition-all text-center">
+          <Link href="/contact" className="hero-cta opacity-0 translate-y-6 border border-white/30 text-white font-bold px-7 py-3.5 md:px-8 md:py-4 rounded-full hover:bg-white/5 transition-all text-center text-sm md:text-base pointer-events-auto">
             {t("home.hero.cta2")}
           </Link>
         </div>

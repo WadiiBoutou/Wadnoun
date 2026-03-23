@@ -31,7 +31,7 @@ export const Footer = () => {
             <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-white/60 mb-6">Contact</h4>
             <div className="flex flex-col gap-3 text-white/40">
               <span>contact@wadnoun.ma</span>
-              <span>+212 6XX XX XX XX</span>
+              <span>+212 602 60 60 41</span>
               <span>Agadir, Maroc</span>
             </div>
           </div>

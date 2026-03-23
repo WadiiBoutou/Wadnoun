@@ -68,12 +68,6 @@ export const AboutContent = () => {
   return (
     <div ref={ref} className="w-full">
 
-      {/* Hero */}
-      <section data-navbar="dark" className="pt-40 pb-32 bg-white text-center px-6">
-        <h1 className="reveal opacity-0 translate-y-10 text-5xl md:text-8xl font-heading font-extrabold text-gray-900 mb-8">{t("about.hero.title")}</h1>
-        <p className="reveal opacity-0 translate-y-8 text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto">{t("about.hero.subtitle")}</p>
-      </section>
-
       {/* History + Image 1 — transformer station slides in from right */}
       <section data-navbar="light" className="py-0 bg-[#0a0f0d] overflow-hidden">
         <div className="grid md:grid-cols-2 min-h-[60vh]">
@@ -146,8 +140,8 @@ export const AboutContent = () => {
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-20 max-w-6xl mx-auto">
             <div>
-              <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl font-heading font-bold text-gray-900 mb-8">{t("about.team.title")}</h2>
-              <p className="reveal opacity-0 translate-y-8 text-lg text-gray-500 leading-relaxed">{t("about.team.text")}</p>
+              <h2 className="reveal opacity-0 translate-y-6 text-3xl md:text-5xl font-heading font-bold text-gray-900 mb-6">{t("about.team.title")}</h2>
+              <p className="reveal opacity-0 translate-y-6 text-lg text-gray-500 leading-relaxed">{t("about.team.text")}</p>
             </div>
             <div>
               <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl font-heading font-bold text-gray-900 mb-8">{t("about.cert.title")}</h2>

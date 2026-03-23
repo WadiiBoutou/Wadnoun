@@ -40,6 +40,8 @@ export const SmoothScroll = () => {
       ScrollTrigger.update();
       // Lenis 'scroll' and 'limit' are pixel-based and remain consistent even when ScrollTrigger pins add extra visual distance.
       emitScrollProgress(e.scroll, e.limit);
+      // Dispatch custom event for navbar theme evaluation
+      window.dispatchEvent(new Event("lenis-scroll"));
     };
     lenis.on("scroll", onScroll);
 

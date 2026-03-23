@@ -10,11 +10,11 @@ if (typeof window !== "undefined") {
 }
 
 const IMAGE_SRCS = [
-  "/pics/image1.jpg",
-  "/pics/image2.jpg",
+  "/pics/image1.webp",
+  "/pics/image2.webp",
   "/pics/image 3.webp",
-  "/pics/image 4.jpg",
-  "/pics/image 5.jpg",
+  "/pics/image2.webp",
+  "/pics/image 5.webp",
 ];
 
 const CARD_W_VW = 72;

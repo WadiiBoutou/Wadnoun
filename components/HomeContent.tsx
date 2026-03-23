@@ -1,21 +1,140 @@
 "use client";
 
 import { useLanguage } from "./LanguageProvider";
-import { Zap, Lightbulb, BarChart3, CheckCircle, ChevronRight, Quote } from "lucide-react";
+import { Zap, Lightbulb, BarChart3, CheckCircle, ChevronRight, Quote, Activity, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { LottieIcon } from "./LottieIcon";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+// ── Methode Accordion ─────────────────────────────────────────────────────
+// State-driven to avoid CSS group-hover jitter when multiple panels compete.
+const PANEL_ASSETS = [
+  { svg: "/icons/bolt.svg",     json: "/icons/bolt.json" },
+  { svg: "/icons/lightbulb.svg", json: "/icons/lightbulb.json" },
+  { svg: "/icons/reports.svg",  json: "/icons/reports.json" },
+  { svg: "/icons/Security.svg", json: "/icons/Security.json" },
+  { svg: "/icons/Success.svg",  json: "/icons/Success.json" },
+];
+
+const MethodeAccordion = ({ t }: { t: (key: string) => string }) => {
+  const [active, setActive] = useState<number | null>(null);
+
+  return (
+    <div className="flex flex-col lg:flex-row rounded-3xl overflow-hidden border border-gray-100 min-h-[420px] lg:h-[500px]">
+      {[1, 2, 3, 4, 5].map((i) => {
+        const isActive = active === i;
+        const isIdle   = active !== null && active !== i;
+
+        return (
+          <div
+            key={i}
+            onMouseEnter={() => setActive(i)}
+            onMouseLeave={() => setActive(null)}
+            style={{
+              flex: isActive ? 4 : isIdle ? 0.6 : 1,
+              transition: "flex 0.6s cubic-bezier(0.4,0,0.2,1), background-color 0.4s ease",
+            }}
+            className={`relative flex flex-col justify-center items-center lg:items-start
+                        px-6 lg:px-10 py-10 overflow-hidden cursor-default
+                        border-b lg:border-b-0 lg:border-r border-gray-100 last:border-0
+                        ${isActive ? "bg-[#0a0f0d]" : "bg-[#fbfbfb]"}`}
+          >
+            {/* Ghost number */}
+            <span
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+                         text-[8rem] lg:text-[12rem] font-black font-heading pointer-events-none select-none
+                         transition-colors duration-500"
+              style={{ color: isActive ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.06)" }}
+            >
+              0{i}
+            </span>
+
+            <div className="relative z-10 w-full flex flex-col items-center lg:items-start text-center lg:text-left">
+              {/* Icon — SVG at rest, Lottie when active (crossfade) */}
+              <div className="relative w-12 h-12 mb-6 flex-shrink-0">
+                {/* Static SVG — visible when NOT active */}
+                <img
+                  src={PANEL_ASSETS[i - 1].svg}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-contain"
+                  style={{
+                    opacity: isActive ? 0 : 1,
+                    filter: "grayscale(1) brightness(0.6)",
+                    transition: "opacity 0.35s ease",
+                  }}
+                />
+                {/* Lottie — fades in + plays when active */}
+                <div
+                  className="absolute inset-0"
+                  style={{ opacity: isActive ? 1 : 0, transition: "opacity 0.35s ease" }}
+                >
+                  <LottieIcon
+                    iconPath={PANEL_ASSETS[i - 1].json}
+                    isHovered={isActive}
+                    className="w-full h-full"
+                  />
+                </div>
+              </div>
+
+              {/* Title */}
+              <h3
+                className="font-heading font-bold text-xl lg:text-2xl transition-colors duration-400 whitespace-nowrap lg:whitespace-normal"
+                style={{ color: isActive ? "#ffffff" : "#111827" }}
+              >
+                {t(`home.process.${i}`)}
+              </h3>
+
+              {/* Description — reveals only when active */}
+              <div
+                style={{
+                  maxHeight: isActive ? "200px" : "0px",
+                  opacity: isActive ? 1 : 0,
+                  transition: "max-height 0.5s ease, opacity 0.4s ease",
+                  overflow: "hidden",
+                  marginTop: isActive ? "1rem" : "0",
+                }}
+              >
+                <p className="text-white/60 text-base leading-relaxed max-w-xs">
+                  {t(`home.process.${i}.desc`)}
+                </p>
+              </div>
+
+              {/* Arrow — shows when active */}
+              <div
+                style={{
+                  opacity: isActive ? 1 : 0,
+                  transform: isActive ? "translateY(0)" : "translateY(8px)",
+                  transition: "opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s",
+                  marginTop: "1.5rem",
+                }}
+              >
+                <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-primary hover:border-primary hover:text-black transition-all">
+                  <ChevronRight className="w-4 h-4" />
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+// ── HomeContent ────────────────────────────────────────────────────────────
 export const HomeContent = () => {
   const { t } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
+  
+  // State for hover-triggered Lottie animations
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   useGSAP(() => {
     // Generic reveal
@@ -64,6 +183,12 @@ export const HomeContent = () => {
 
   }, { scope: ref });
 
+  const domainData = [
+    { icon: "/icons/bolt.json", idx: 1 },
+    { icon: "/icons/lightbulb.json", idx: 2 },
+    { icon: "/icons/reports.json", idx: 3 },
+  ];
+
   return (
     <div ref={ref} className="w-full text-gray-800">
 
@@ -85,8 +210,8 @@ export const HomeContent = () => {
       <section data-navbar="dark" className="py-40 bg-white">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="reveal opacity-0 translate-y-8 text-4xl md:text-6xl font-heading font-bold text-gray-900 mb-12">{t("home.mission.title")}</h2>
-            <p className="reveal opacity-0 translate-y-8 text-xl md:text-2xl text-gray-500 leading-relaxed">
+            <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-gray-900 mb-8 md:mb-12 uppercase tracking-tight">{t("home.mission.title")}</h2>
+            <p className="reveal opacity-0 translate-y-8 text-base md:text-xl lg:text-2xl text-gray-500 leading-relaxed max-w-3xl mx-auto">
               {t("home.mission.text")}
             </p>
           </div>
@@ -114,20 +239,44 @@ export const HomeContent = () => {
         </div>
       </div>
 
-      {/* Nos Domaines — on dark background */}
-      <section data-navbar="light" className="py-40 bg-[#0a0f0d]">
+      {/* Nos Domaines — on dark background with 3D Lottie cards */}
+      <section data-navbar="light" className="py-24 md:py-40 bg-[#0a0f0d]">
         <div className="container mx-auto px-6">
-          <h2 className="reveal opacity-0 translate-y-8 text-4xl md:text-6xl font-heading font-bold text-white mb-20 text-center">{t("home.domains.title")}</h2>
-          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {[
-              { icon: <Zap className="w-10 h-10" />, idx: 1 },
-              { icon: <Lightbulb className="w-10 h-10" />, idx: 2 },
-              { icon: <BarChart3 className="w-10 h-10" />, idx: 3 },
-            ].map(({ icon, idx }) => (
-              <div key={idx} className="reveal opacity-0 translate-y-8 bg-white/5 border border-white/10 rounded-2xl p-10 hover:bg-white/10 transition-colors group">
-                <div className="text-primary mb-8 group-hover:scale-110 transition-transform">{icon}</div>
-                <h3 className="text-xl font-bold mb-4 font-heading text-white">{t(`home.domains.${idx}.title`)}</h3>
-                <p className="text-white/60 leading-relaxed">{t(`home.domains.${idx}.text`)}</p>
+          <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-white mb-16 md:mb-20 text-center uppercase tracking-tight">
+            {t("home.domains.title")}
+          </h2>
+          <div className="grid lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto [perspective:2000px]">
+            {domainData.map(({ icon, idx }) => (
+              <div 
+                key={idx} 
+                onMouseEnter={() => setHoveredIdx(idx)}
+                onMouseLeave={() => setHoveredIdx(null)}
+                className="reveal opacity-0 translate-y-8 bg-white/[0.03] border border-white/10 rounded-[2rem] p-8 md:p-10 
+                           transition-all duration-500 ease-out cursor-default group 
+                           hover:bg-white/[0.06] hover:border-primary/40 
+                           hover:-translate-y-6 md:hover:-translate-y-8 hover:rotate-x-3 hover:shadow-[0_45px_100px_rgba(0,0,0,0.8)]
+                           [transform-style:preserve-3d]"
+              >
+                {/* Header: Free icon + Title on the same line */}
+                <div className="flex items-center gap-4 md:gap-6 mb-8 [transform:translateZ(40px)]">
+                  <div className="w-10 h-10 md:w-12 md:h-12 flex-shrink-0">
+                    <LottieIcon 
+                      iconPath={icon} 
+                      isHovered={hoveredIdx === idx} 
+                      className="w-full h-full" 
+                    />
+                  </div>
+                  <h3 className="text-xl md:text-2xl lg:text-xl xl:text-2xl font-bold font-heading text-white leading-tight">
+                    {t(`home.domains.${idx}.title`)}
+                  </h3>
+                </div>
+                
+                {/* Body Content */}
+                <div className="[transform:translateZ(20px)]">
+                  <p className="text-white/50 leading-relaxed text-sm md:text-base lg:text-sm xl:text-lg">
+                    {t(`home.domains.${idx}.text`)}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
@@ -150,7 +299,7 @@ export const HomeContent = () => {
           <div className="img-street-text opacity-0 flex items-center bg-[#0a0f0d] px-12 md:px-20 py-20">
             <div>
               <p className="text-primary text-sm font-bold uppercase tracking-[0.3em] mb-6">Éclairage Public</p>
-              <h3 className="text-3xl md:text-5xl font-heading font-black text-white leading-tight mb-8">
+              <h3 className="text-2xl md:text-4xl lg:text-5xl font-heading font-black text-white leading-tight mb-8">
                 Des villes mieux éclairées,<br />une énergie maîtrisée
               </h3>
               <p className="text-white/50 text-lg leading-relaxed mb-10">
@@ -164,11 +313,11 @@ export const HomeContent = () => {
         </div>
       </section>
 
-      {/* Pourquoi WadNoun — accent section */}
-      <section data-navbar="dark" className="py-40 bg-primary">
+      {/* Pourquoi WadNoun — accent section (Green bg, White navbar) */}
+      <section data-navbar="light" className="py-40 bg-primary">
         <div className="container mx-auto px-6">
-          <h2 className="reveal opacity-0 translate-y-8 text-4xl md:text-7xl font-heading font-extrabold text-[#0a0f0d] mb-20">{t("home.why.title")}</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+          <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-7xl font-heading font-extrabold text-[#0a0f0d] mb-16 md:mb-20 uppercase tracking-tight">{t("home.why.title")}</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
             {[1, 2, 3, 4, 5].map(i => (
               <div key={i} className="reveal opacity-0 translate-y-8">
                 <h3 className="text-lg font-bold mb-3 font-heading text-[#0a0f0d]/80">{t(`home.why.${i}.title`)}</h3>
@@ -179,20 +328,12 @@ export const HomeContent = () => {
         </div>
       </section>
 
-      {/* Process — clean white */}
-      <section data-navbar="dark" className="py-40 bg-white">
+      {/* Notre Méthode — Interactive Accordion */}
+      <section data-navbar="dark" className="py-24 md:py-40 bg-white">
         <div className="container mx-auto px-6">
-          <h2 className="reveal opacity-0 translate-y-8 text-4xl md:text-6xl font-heading font-bold text-center text-gray-900 mb-20">{t("home.process.title")}</h2>
-          <div className="max-w-3xl mx-auto space-y-6">
-            {[1, 2, 3, 4, 5].map(i => (
-              <div key={i} className="reveal opacity-0 translate-y-6 flex items-center gap-6 p-8 rounded-2xl border border-gray-100 hover:border-primary/30 hover:bg-primary/5 transition-all">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
-                  <span className="text-primary font-heading font-black text-lg">0{i}</span>
-                </div>
-                <span className="text-lg font-bold text-gray-800">{t(`home.process.${i}`)}</span>
-              </div>
-            ))}
-          </div>
+          <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-center text-gray-900 mb-16 md:mb-20 uppercase tracking-tight">{t("home.process.title")}</h2>
+          
+          <MethodeAccordion t={t} />
         </div>
       </section>
 
@@ -211,7 +352,7 @@ export const HomeContent = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f0d]/80 via-[#0a0f0d]/20 to-transparent z-10" />
         <div className="absolute bottom-12 left-8 md:left-20 z-20">
           <p className="text-primary text-sm font-bold uppercase tracking-[0.3em] mb-3">Distribution & Contrôle</p>
-          <h3 className="text-3xl md:text-5xl font-heading font-black text-white">
+          <h3 className="text-3xl md:text-4xl lg:text-5xl font-heading font-black text-white uppercase tracking-tight">
             TGBT, automatisme<br />& supervision SCADA
           </h3>
         </div>
@@ -220,7 +361,7 @@ export const HomeContent = () => {
       {/* Testimonials — dark */}
       <section data-navbar="light" className="py-40 bg-[#0a0f0d]">
         <div className="container mx-auto px-6">
-          <h2 className="reveal opacity-0 translate-y-8 text-4xl md:text-6xl font-heading font-bold text-white mb-20 text-center">{t("home.tests.title")}</h2>
+          <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-white mb-16 md:mb-20 text-center uppercase tracking-tight">{t("home.tests.title")}</h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {[1, 2, 3].map(i => (
               <div key={i} className="reveal opacity-0 translate-y-8 bg-white/5 border border-white/10 p-10 rounded-2xl flex flex-col">
@@ -233,11 +374,11 @@ export const HomeContent = () => {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section data-navbar="dark" className="py-40 bg-primary text-[#0a0f0d] text-center">
+      {/* Final CTA (Green bg, White navbar) */}
+      <section data-navbar="light" className="py-40 bg-primary text-[#0a0f0d] text-center">
         <div className="container mx-auto px-6 max-w-3xl">
-          <h2 className="reveal opacity-0 translate-y-8 text-4xl md:text-6xl font-heading font-black mb-8">{t("home.cta.title")}</h2>
-          <p className="reveal opacity-0 translate-y-6 text-xl mb-14 font-medium text-[#0a0f0d]/70">{t("home.cta.text")}</p>
+          <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-6xl font-heading font-black mb-10 md:mb-8 uppercase tracking-tight">{t("home.cta.title")}</h2>
+          <p className="reveal opacity-0 translate-y-6 text-base md:text-xl mb-12 md:mb-14 font-medium text-[#0a0f0d]/70">{t("home.cta.text")}</p>
           <Link href="/contact" className="reveal opacity-0 translate-y-6 inline-flex items-center gap-3 bg-[#0a0f0d] text-white font-bold px-12 py-5 rounded-full hover:scale-105 transition-transform text-lg">
             {t("home.cta.btn")} <ChevronRight size={20} />
           </Link>
