@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import Spline from "@splinetool/react-spline";
 import type { Application } from "@splinetool/runtime";
 
-export const SplineScene = () => {
+export const SplineScene = ({ isArabic = false }: { isArabic?: boolean }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const splineApp = useRef<Application | null>(null);
 
@@ -137,14 +137,14 @@ export const SplineScene = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="absolute inset-0 z-0">
+    <div ref={containerRef} className={`absolute inset-0 z-0 ${isArabic ? "-scale-x-100" : ""}`}>
       <Spline
         scene="/scene.splinecode"
         onLoad={(app) => {
           splineApp.current = app;
           console.log("[SPLINE] onLoad fired, app:", app);
         }}
-        className="w-full h-full object-cover scale-110 md:scale-105 translate-x-0 bg-[#0a0f0d] placeholder:bg-[#0a0f0d]"
+        className="w-full h-full object-cover scale-110 md:scale-105 bg-[#0a0f0d] placeholder:bg-[#0a0f0d]"
       />
     </div>
   );

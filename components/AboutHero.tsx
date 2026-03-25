@@ -21,16 +21,16 @@ export const AboutHero = () => {
   // Text values from user example
   const kickerPrefix = "02 — ";
   const kickerText = t("nav.about").toUpperCase();
-  const titleLine1 = "Construire";
-  const titleLine2 = "l'Avenir";
-  const titleAccent = "Énergétique.";
+  const titleLine1 = t("about.hero.title.line1");
+  const titleLine2 = t("about.hero.title.line2");
+  const titleAccent = t("about.hero.title.line3");
   
-  const subtitle = "Depuis Agadir, au cœur du Souss-Massa, SEP accompagne particuliers, agriculteurs et industriels dans leur transition vers une énergie propre, fiable et souveraine.";
+  const subtitle = t("about.hero.subtitle");
   
   const stats = [
-    { value: "2014", label: "DEPUIS" },
-    { value: "+500", label: "PROJETS" },
-    { value: "Agadir", label: "SIÈGE" }
+    { value: t("about.hero.stats.1.value"), label: t("about.hero.stats.1.label") },
+    { value: t("about.hero.stats.2.value"), label: t("about.hero.stats.2.label") },
+    { value: t("about.hero.stats.3.value"), label: t("about.hero.stats.3.label") }
   ];
 
   return (

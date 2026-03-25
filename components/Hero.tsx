@@ -13,7 +13,7 @@ const SplineScene = dynamic(() => import("./SplineScene").then(m => m.SplineScen
 });
 
 export const Hero = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const container = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -27,7 +27,7 @@ export const Hero = () => {
   return (
     <section ref={container} data-navbar="light" className="relative w-full min-h-screen bg-[#0a0f0d] flex flex-col justify-center overflow-hidden">
       {/* 3D Spline Backdrop with scroll fix */}
-      <SplineScene />
+      <SplineScene isArabic={language === "ar"} />
 
       {/* Shadow Overlays */}
       <div className="absolute inset-0 z-[1] pointer-events-none">
@@ -41,13 +41,13 @@ export const Hero = () => {
         <div className="max-w-6xl">
           <h1 className="font-heading font-extrabold leading-[0.95] tracking-tight text-white select-none">
             <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2.2rem,7vw,5.5rem)] lg:text-[clamp(3.5rem,8vw,6.5rem)]">
-              Infrastructure
+              {t("home.hero.title.line1")}
             </span>
             <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2.2rem,7vw,5.5rem)] lg:text-[clamp(3.5rem,8vw,6.5rem)]">
-              Électrique
+              {t("home.hero.title.line2")}
             </span>
             <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2.2rem,7vw,5.5rem)] lg:text-[clamp(3.5rem,8vw,6.5rem)] text-primary">
-              au Maroc
+              {t("home.hero.title.line3")}
             </span>
           </h1>
         </div>

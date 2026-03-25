@@ -7,6 +7,9 @@ export const ar = {
 
   // Page 1: Accueil
   "home.hero.title": "البنية التحتية الكهربائية للمغرب الحديث",
+  "home.hero.title.line1": "البنية التحتية",
+  "home.hero.title.line2": "الكهربائية",
+  "home.hero.title.line3": "للمغرب",
   "home.hero.subtitle": "شركة WadNoun SARL تصمم وتنجز البنى التحتية الكهربائية الشاملة — تعشيق الشبكات، محطات التحويل، الإنارة العمومية، التوزيع والاقتصاد في الطاقة — لخدمة الجماعات والمؤسسات في المغرب.",
   "home.hero.cta1": "اكتشف خدماتنا",
   "home.hero.cta2": "اتصل بنا",
@@ -62,7 +65,17 @@ export const ar = {
 
   // Page 2: À Propos
   "about.hero.title": "من نحن؟",
-  "about.hero.subtitle": "WadNoun SARL — شركة مغربية متخصصة في هندسة الكهرباء، في خدمة الجماعات والمنشآت الصناعية منذ 2014.",
+  "about.hero.title.line1": "بناء",
+  "about.hero.title.line2": "المستقبل",
+  "about.hero.title.line3": "الطاقي.",
+  "about.hero.subtitle": "من أكادير، في قلب سوس ماسة، ترافق WadNoun الأفراد والمزارعين والصناعيين في انتقالهم نحو طاقة نظيفة وموثوقة وذات سيادة.",
+  "about.hero.stats.1.value": "2014",
+  "about.hero.stats.1.label": "منذ",
+  "about.hero.stats.2.value": "+500",
+  "about.hero.stats.2.label": "مشاريع",
+  "about.hero.stats.3.value": "أكادير",
+  "about.hero.stats.3.label": "المقر",
+
   "about.history.title": "قصتنا",
   "about.history.text": "نشأت شركة WadNoun SARL من قناعة راسخة: أن المغرب يحتاج إلى شركة محلية قادرة على إتقان كامل سلسلة البنية التحتية الكهربائية — من التصميم إلى التشغيل — بمعايير المجموعات الدولية الكبرى ومرونة الهياكل الإنسانية الحجم. أسسها فريق من المهندسين المتخصصين في قطاع الكهرباء عام 2014، وأثبتت الشركة حضورها تدريجيًا في أعمال التكهرب القروي والحضري، ومحطات التحويل، والإنارة العمومية، والتوزيع الصناعي. اليوم، تضم محفظة WadNoun SARL أكثر من 200 مشروع منجز على الصعيد الوطني.",
   "about.values.title": "قيمنا",
@@ -134,7 +147,7 @@ export const ar = {
   "contact.info.email": "contact@wadnoun.ma",
   "contact.info.address": "أكادير، جهة سوس ماسة، المغرب",
   "contact.info.hours": "الإثنين – الجمعة، 8:00 – 18:00",
-  "contact.wa.text": "هل تفضل واتساب؟ انقر أدناه لبدء محادثة مباشرة مع فريقنا التقني.",
+  "contact.wa.text": "انقر أدناه لبدء محادثة مباشرة مع فريقنا التقني.",
   "contact.wa.btn": "التواصل عبر واتساب",
 
   // Home Premium Scroll
@@ -243,6 +256,25 @@ export const ar = {
   "home.breakthrough.ddd.develop.desc": "أشغال من قبل فرق مؤهلة، توريدات معتمدة، رقابة جودة مستمرة.",
   "home.breakthrough.ddd.deploy.title": "تسليم",
   "home.breakthrough.ddd.deploy.desc": "اختبارات تحت الجهد، استلام تناقضي، تكوين وعقد صيانة.",
+
+  // Footer
+  "footer.description": "متخصص في البنية التحتية الكهربائية بالمغرب — تكهرب، محطات تحويل، إنارة عمومية، توزيع واقتصاد طاقة.",
+  "footer.services": "خدمات",
+  "footer.contact": "اتصال",
+  "footer.email": "contact@wadnoun.ma",
+  "footer.phone": "+212 602 60 60 41",
+  "footer.address": "أكادير، المغرب",
+  "footer.copyright": "جميع الحقوق محفوظة.",
+
+  // Home Content Images
+  "home.image1.kicker": "البنية التحتية للضغط المتوسط",
+  "home.image1.title": "خطوط الضغط العالي،\nشبكات التوزيع",
+  "home.image2.kicker": "الإنارة العمومية",
+  "home.image2.title": "مدن أكثر إضاءة،\nطاقة موثوقة",
+  "home.image2.text": "حلول LED مع التحكم عن بعد تقلل استهلاك الجماعات بنسبة تصل إلى 70%.",
+  "home.image2.cta": "استكشف عرض الإنارة",
+  "home.image3.kicker": "التوزيع والتحكم",
+  "home.image3.title": "لوحات TGBT، أتمتة\nوإشراف SCADA",
 
   // Animations Overlays
   "anime.turbine1": "محطات",

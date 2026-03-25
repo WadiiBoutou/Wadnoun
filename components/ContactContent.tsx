@@ -5,7 +5,7 @@ import { Mail, Phone, MapPin, Send, MessageCircle, Clock } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import { useRef } from "react";
+import { useRef, type FormEvent } from "react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -30,6 +30,33 @@ export const ContactContent = () => {
     });
   }, { scope: ref });
 
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const name = String(formData.get("name") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim();
+    const phone = String(formData.get("phone") ?? "").trim();
+    const projectType = String(formData.get("projectType") ?? "").trim();
+    const messageText = String(formData.get("message") ?? "").trim();
+
+    const intro =
+      language === "ar" ? "طلب جديد عبر موقع WadNoun" : "Nouvelle demande via le site WadNoun";
+
+    const message = [
+      intro,
+      "",
+      `${t("contact.form.name")}: ${name || "-"}`,
+      `${t("contact.form.email")}: ${email || "-"}`,
+      `${t("contact.form.phone")}: ${phone || "-"}`,
+      `${t("contact.form.type")}: ${projectType || "-"}`,
+      `${t("contact.form.msg")}: ${messageText || "-"}`,
+    ].join("\n");
+
+    const waUrl = `https://wa.me/${waMeNumber}?text=${encodeURIComponent(message)}`;
+    window.open(waUrl, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <div ref={ref} className="w-full">
       
@@ -50,22 +77,22 @@ export const ContactContent = () => {
             
             {/* Form */}
             <div className="reveal opacity-0 translate-y-6">
-              <form className="flex flex-col gap-5" onSubmit={(e) => e.preventDefault()}>
+              <form className="flex flex-col gap-5" onSubmit={handleFormSubmit}>
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2 tracking-wider uppercase">{t("contact.form.name")}</label>
-                  <input type="text" className="w-full bg-gray-50 border-0 border-b-2 border-gray-200 px-0 py-3 outline-none focus:border-primary transition-colors text-base" />
+                  <input name="name" type="text" className="w-full bg-gray-50 border-0 border-b-2 border-gray-200 px-0 py-3 outline-none focus:border-primary transition-colors text-base" />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2 tracking-wider uppercase">{t("contact.form.email")}</label>
-                  <input type="email" className="w-full bg-gray-50 border-0 border-b-2 border-gray-200 px-0 py-3 outline-none focus:border-primary transition-colors text-base" />
+                  <input name="email" type="email" className="w-full bg-gray-50 border-0 border-b-2 border-gray-200 px-0 py-3 outline-none focus:border-primary transition-colors text-base" />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2 tracking-wider uppercase">{t("contact.form.phone")}</label>
-                  <input type="tel" className="w-full bg-gray-50 border-0 border-b-2 border-gray-200 px-0 py-3 outline-none focus:border-primary transition-colors text-base" />
+                  <input name="phone" type="tel" className="w-full bg-gray-50 border-0 border-b-2 border-gray-200 px-0 py-3 outline-none focus:border-primary transition-colors text-base" />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2 tracking-wider uppercase">{t("contact.form.type")}</label>
-                  <select className="w-full bg-gray-50 border-0 border-b-2 border-gray-200 px-0 py-3 outline-none focus:border-primary transition-colors text-base">
+                  <select name="projectType" className="w-full bg-gray-50 border-0 border-b-2 border-gray-200 px-0 py-3 outline-none focus:border-primary transition-colors text-base">
                     <option>{t("contact.form.type.opt1")}</option>
                     <option>{t("contact.form.type.opt2")}</option>
                     <option>{t("contact.form.type.opt3")}</option>
@@ -75,9 +102,9 @@ export const ContactContent = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2 tracking-wider uppercase">{t("contact.form.msg")}</label>
-                  <textarea rows={3} className="w-full bg-gray-50 border-0 border-b-2 border-gray-200 px-0 py-3 outline-none focus:border-primary transition-colors resize-none text-base leading-relaxed"></textarea>
+                  <textarea name="message" rows={3} className="w-full bg-gray-50 border-0 border-b-2 border-gray-200 px-0 py-3 outline-none focus:border-primary transition-colors resize-none text-base leading-relaxed"></textarea>
                 </div>
-                <button className="bg-[#0a0f0d] text-white font-bold py-4 rounded-full flex items-center justify-center gap-3 hover:bg-[#0a0f0d]/90 transition-colors mt-4 text-base">
+                <button type="submit" className="bg-[#0a0f0d] text-white font-bold py-4 rounded-full flex items-center justify-center gap-3 hover:bg-[#0a0f0d]/90 transition-colors mt-4 text-base">
                   {t("contact.form.btn")} <Send size={18} />
                 </button>
               </form>

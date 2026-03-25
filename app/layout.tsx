@@ -13,7 +13,12 @@ export const metadata: Metadata = {
   description: "WadNoun SARL : travaux d'électrification, postes de transformation, éclairage public, distribution et contrôle électrique, économie d'énergie. Expertise terrain au Maroc depuis 2014.",
   keywords: "électrification, postes de transformation, éclairage public, distribution électrique, économie d'énergie, infrastructure électrique, Maroc, ONEE, HTA, BT",
   icons: {
-    icon: "/weblogo.webp",
+    icon: [
+      { url: "/weblogo.webp", type: "image/webp", sizes: "32x32" },
+      { url: "/weblogo.webp", type: "image/webp", sizes: "192x192" },
+    ],
+    shortcut: [{ url: "/weblogo.webp", type: "image/webp" }],
+    apple: [{ url: "/weblogo.webp", type: "image/webp", sizes: "180x180" }],
   },
   openGraph: {
     title: "WadNoun",

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef, useEffect } from "react";
 import { useLanguage } from "./LanguageProvider";
@@ -15,7 +15,7 @@ const TRANSITION = "color 0.3s ease, filter 0.3s ease";
 
 export const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const { language, setLanguage } = useLanguage();
+  const { language, setLanguage, t } = useLanguage();
   const drawerRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -24,8 +24,6 @@ export const Navbar = () => {
 
   const navRef = useRef<HTMLElement | null>(null);
   const [navHeight, setNavHeight] = useState(80);
-  // "light"  = navbar over dark bg → elements are white
-  // "dark"   = navbar over light bg → elements are black
   const [navTheme, setNavTheme] = useState<"light" | "dark">("light");
 
   const isDark = navTheme === "dark";
@@ -34,9 +32,6 @@ export const Navbar = () => {
     ? "brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.22))"
     : "brightness(0) invert(1) drop-shadow(0 0 12px rgba(255,255,255,0.55))";
 
-  // Theme toggling is handled by IntersectionObserver to match section backgrounds.
-
-  // Measure navbar height so IntersectionObserver triggers exactly at its bottom edge.
   useEffect(() => {
     const measure = () => {
       const el = navRef.current;
@@ -49,27 +44,24 @@ export const Navbar = () => {
     return () => window.removeEventListener("resize", measure);
   }, []);
 
-  // IntersectionObserver: switch navbar theme when the section edge crosses the navbar vertical midpoint.
   useEffect(() => {
     const sections = document.querySelectorAll<HTMLElement>("[data-navbar]");
     if (!sections.length) return;
 
-    const NAV_TOP_OFFSET = 16; // top-4 = 16px
-    const NAV_HEIGHT = 80;     // h-20 = 80px
-    const SCAN_LINE = NAV_TOP_OFFSET + NAV_HEIGHT / 2; // 56px from top of viewport
+    const NAV_TOP_OFFSET = 16;
+    const NAV_HEIGHT = navHeight || 80;
+    const SCAN_LINE = NAV_TOP_OFFSET + NAV_HEIGHT / 2;
 
-    // Stable map of every section currently crossing the observed root.
     const intersectingMap = new Map<HTMLElement, "light" | "dark">();
 
     const evaluateTheme = () => {
-      let activeTheme: "light" | "dark" = "light"; // safe fallback
+      let activeTheme: "light" | "dark" = "light";
 
       for (const [el, theme] of intersectingMap) {
         const rect = el.getBoundingClientRect();
-        // If the section straddles the scan line.
         if (rect.top <= SCAN_LINE && rect.bottom >= SCAN_LINE) {
           activeTheme = theme;
-          break; // first match wins
+          break;
         }
       }
 
@@ -89,7 +81,6 @@ export const Navbar = () => {
         evaluateTheme();
       },
       {
-        // Observe the band the navbar actually occupies (expanded for safety)
         rootMargin: `0px 0px -${window.innerHeight - SCAN_LINE * 2}px 0px`,
         threshold: [0, 0.1],
       }
@@ -106,47 +97,50 @@ export const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("lenis-scroll", handleScroll);
     };
-  }, []);
-
-  
+  }, [navHeight]);
 
   useEffect(() => {
     if (!drawerRef.current || !overlayRef.current) return;
 
+    const isArabic = language === "ar";
+    const drawerStartX = isArabic ? "-100%" : "100%";
+    const navItemStartX = isArabic ? -40 : 40;
+
     if (isDrawerOpen) {
       gsap.set(overlayRef.current, { display: "block", opacity: 0 });
-      gsap.set(drawerRef.current, { x: "100%", opacity: 0, scale: 0.97 });
+      gsap.set(drawerRef.current, { x: drawerStartX, opacity: 0, scale: 0.97 });
       gsap.to(overlayRef.current, { opacity: 1, duration: 0.4, ease: "power2.out" });
       gsap.to(drawerRef.current, { x: "0%", opacity: 1, scale: 1, duration: 0.6, ease: "expo.out" });
       gsap.fromTo(
         ".nav-item",
-        { x: 40, opacity: 0 },
+        { x: navItemStartX, opacity: 0 },
         { x: 0, opacity: 1, duration: 0.5, stagger: 0.09, ease: "power3.out", delay: 0.28 }
       );
     } else {
-      gsap.to(drawerRef.current, { x: "100%", opacity: 0, scale: 0.97, duration: 0.45, ease: "power3.in" });
+      gsap.to(drawerRef.current, { x: drawerStartX, opacity: 0, scale: 0.97, duration: 0.45, ease: "power3.in" });
       gsap.to(overlayRef.current, { opacity: 0, duration: 0.35, ease: "power2.in" }).then(() => {
         gsap.set(overlayRef.current, { display: "none" });
       });
     }
-  }, [isDrawerOpen]);
+  }, [isDrawerOpen, language]);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") closeDrawer(); };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeDrawer();
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
   const navLinks = [
-    { href: "/", label: "Accueil" },
-    { href: "/a-propos", label: "Propos" },
-    { href: "/services", label: "Services" },
-    { href: "/contact", label: "Contact" },
+    { href: "/", label: t("nav.home") },
+    { href: "/a-propos", label: t("nav.about") },
+    { href: "/services", label: t("nav.services") },
+    { href: "/contact", label: t("nav.contact") },
   ];
 
   return (
     <div className="contents">
-      {/* Top Nav Bar */}
       <nav ref={navRef} className="fixed left-0 right-0 top-4 z-50 h-20 flex items-center justify-between px-4 md:px-8 pointer-events-none">
         <div className="pointer-events-auto" style={{ color: elemColor, transition: TRANSITION }}>
           <button
@@ -186,7 +180,6 @@ export const Navbar = () => {
         </div>
       </nav>
 
-      {/* Dim overlay with background sweep */}
       <div
         ref={overlayRef}
         role="button"
@@ -197,7 +190,6 @@ export const Navbar = () => {
         onClick={closeDrawer}
         onKeyDown={(e) => e.key === "Escape" && closeDrawer()}
       >
-        {/* Pulsing gradient sweep on unfocused background */}
         <div
           className="pointer-events-none"
           style={{
@@ -209,6 +201,7 @@ export const Navbar = () => {
             opacity: 0.64,
             background: drawerSweepGradient,
             animation: "drawer-gradient-sweep 5s linear infinite",
+            transform: language === "ar" ? "scaleX(-1)" : "none",
           }}
         />
         <div
@@ -222,27 +215,30 @@ export const Navbar = () => {
             opacity: 0.64,
             background: drawerSweepGradient,
             animation: "drawer-gradient-sweep 5s linear infinite",
+            transform: language === "ar" ? "scaleX(-1)" : "none",
             animationDelay: "2.5s",
           }}
         />
       </div>
 
-      {/* Floating pistachio drawer */}
       <div
         ref={drawerRef}
         className="fixed z-[80] flex flex-col rounded-2xl overflow-hidden shadow-2xl"
         style={{
           top: "1.5rem",
-          right: "1.5rem",
+          left: language === "ar" ? "1.5rem" : "auto",
+          right: language === "ar" ? "auto" : "1.5rem",
           bottom: "1.5rem",
           width: "min(400px, calc(100vw - 3rem))",
           backgroundColor: PISTACHIO,
-          transform: "translateX(110%)",
+          transform: language === "ar" ? "translateX(-110%)" : "translateX(110%)",
           opacity: 0,
         }}
       >
-        {/* Nav links — centered vertically */}
-        <nav className="relative flex flex-col justify-center flex-grow px-10 pt-6 z-10">
+        <nav
+          dir={language === "ar" ? "rtl" : "ltr"}
+          className={`relative flex flex-col justify-center flex-grow px-10 pt-6 z-10 ${language === "ar" ? "text-right" : "text-left"}`}
+        >
           {navLinks.map((link, i) => (
             <Link
               key={link.href}
@@ -266,7 +262,6 @@ export const Navbar = () => {
         </div>
       </div>
 
-      {/* Close button — pistachio square, black X, left of drawer; always in DOM to avoid insertBefore errors */}
       <button
         onClick={closeDrawer}
         aria-label="Close menu"
@@ -274,7 +269,8 @@ export const Navbar = () => {
         style={{
           backgroundColor: PISTACHIO,
           top: "50%",
-          right: `calc(min(400px, calc(100vw - 3rem)) + 1.5rem + 10px)`,
+          left: language === "ar" ? `calc(min(400px, calc(100vw - 3rem)) + 1.5rem + 10px)` : "auto",
+          right: language === "ar" ? "auto" : `calc(min(400px, calc(100vw - 3rem)) + 1.5rem + 10px)`,
           transform: "translateY(-50%)",
           width: "34px",
           height: "34px",
@@ -288,3 +284,4 @@ export const Navbar = () => {
     </div>
   );
 };
+

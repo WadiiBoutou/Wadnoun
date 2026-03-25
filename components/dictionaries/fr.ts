@@ -7,6 +7,9 @@ export const fr = {
 
   // Page 1: Accueil
   "home.hero.title": "L'Infrastructure Électrique du Maroc de Demain",
+  "home.hero.title.line1": "Infrastructure",
+  "home.hero.title.line2": "Électrique",
+  "home.hero.title.line3": "au Maroc",
   "home.hero.subtitle": "WadNoun SARL conçoit et réalise des infrastructures électriques complètes — électrification, postes de transformation, éclairage public, distribution et économie d'énergie — au service des collectivités et des entreprises.",
   "home.hero.cta1": "Découvrir nos services",
   "home.hero.cta2": "Nous contacter",
@@ -62,7 +65,17 @@ export const fr = {
 
   // Page 2: À Propos
   "about.hero.title": "Qui Sommes-Nous ?",
-  "about.hero.subtitle": "WadNoun SARL — entreprise marocaine d'ingénierie électrique, au service des collectivités et des industriels depuis 2014.",
+  "about.hero.title.line1": "Construire",
+  "about.hero.title.line2": "l'Avenir",
+  "about.hero.title.line3": "Énergétique.",
+  "about.hero.subtitle": "Depuis Agadir, au cœur du Souss-Massa, WadNoun accompagne particuliers, agriculteurs et industriels dans leur transition vers une énergie propre, fiable et souveraine.",
+  "about.hero.stats.1.value": "2014",
+  "about.hero.stats.1.label": "DEPUIS",
+  "about.hero.stats.2.value": "+500",
+  "about.hero.stats.2.label": "PROJETS",
+  "about.hero.stats.3.value": "Agadir",
+  "about.hero.stats.3.label": "SIÈGE",
+
   "about.history.title": "Notre Histoire",
   "about.history.text": "WadNoun SARL est née de la conviction que le Maroc a besoin d'une entreprise locale capable de maîtriser l'ensemble de la chaîne des infrastructures électriques — de la conception à la mise en service — avec les standards des grands groupes internationaux et la réactivité d'une structure à taille humaine. Fondée en 2014 par des ingénieurs issus du secteur électrique, l'entreprise s'est imposée progressivement dans les travaux d'électrification ruraux et urbains, les postes de transformation, l'éclairage public et la distribution industrielle. Aujourd'hui, WadNoun SARL compte plus de 200 projets réalisés et intervient sur l'ensemble du territoire national.",
   "about.values.title": "Nos Valeurs",
@@ -134,7 +147,7 @@ export const fr = {
   "contact.info.email": "contact@wadnoun.ma",
   "contact.info.address": "Agadir, Région Souss-Massa, Maroc",
   "contact.info.hours": "Lundi – Vendredi, 8h00 – 18h00",
-  "contact.wa.text": "Préférez-vous WhatsApp ? Cliquez ci-dessous pour démarrer une conversation directe avec notre équipe technique.",
+  "contact.wa.text": "Cliquez ci-dessous pour démarrer une conversation directe avec notre équipe technique.",
   "contact.wa.btn": "Contacter sur WhatsApp",
 
   // Home Premium Scroll
@@ -243,6 +256,25 @@ export const fr = {
   "home.breakthrough.ddd.develop.desc": "Travaux par équipes habilitées, fournitures certifiées, contrôle qualité continu.",
   "home.breakthrough.ddd.deploy.title": "LIVRER",
   "home.breakthrough.ddd.deploy.desc": "Essais sous tension, réception contradictoire, formation et contrat de maintenance.",
+
+  // Footer
+  "footer.description": "Spécialiste en infrastructure électrique au Maroc — électrification, postes de transformation, éclairage public, distribution et économie d'énergie.",
+  "footer.services": "Services",
+  "footer.contact": "Contact",
+  "footer.email": "contact@wadnoun.ma",
+  "footer.phone": "+212 602 60 60 41",
+  "footer.address": "Agadir, Maroc",
+  "footer.copyright": "Tous droits réservés.",
+
+  // Home Content Images
+  "home.image1.kicker": "Infrastructure HTA",
+  "home.image1.title": "Lignes haute tension,\nréseaux de distribution",
+  "home.image2.kicker": "Éclairage Public",
+  "home.image2.title": "Des villes mieux éclairées,\nune énergie maîtrisée",
+  "home.image2.text": "Nos solutions LED avec télécontrôle réduisent la consommation des collectivités jusqu'à 70%.",
+  "home.image2.cta": "Voir l'offre éclairage",
+  "home.image3.kicker": "Distribution & Contrôle",
+  "home.image3.title": "TGBT, automatisme\n& supervision SCADA",
 
   // Animations Overlays
   "anime.turbine1": "POSTES DE",

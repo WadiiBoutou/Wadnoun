@@ -109,7 +109,7 @@ export const LightbulbSequence = () => {
 
       <div className="absolute inset-0 pointer-events-none z-10 mix-blend-multiply" style={{ background: "radial-gradient(circle, transparent 30%, rgba(0,0,0,0.95) 100%)" }}></div>
 
-      <div className="l-text absolute inset-0 z-20 flex flex-col items-end justify-center pointer-events-none opacity-0 will-change-transform pr-8 md:pr-16">
+      <div className="l-text absolute top-0 right-0 h-full z-20 flex flex-col items-end justify-center pointer-events-none opacity-0 will-change-transform pr-8 md:pr-16">
         <h2 className="text-4xl md:text-7xl font-heading font-bold tracking-widest text-emerald-100 drop-shadow-2xl text-right leading-tight">
           {t("anime.light1")} <br /> {t("anime.light2")}
         </h2>

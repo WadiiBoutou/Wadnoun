@@ -231,9 +231,9 @@ export const HomeContent = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a0f0d]/70 via-transparent to-[#0a0f0d]/40 z-10" />
         <div className="absolute inset-0 z-20 flex items-center px-8 md:px-20">
           <div className="max-w-lg">
-            <p className="text-primary text-sm font-bold uppercase tracking-[0.3em] mb-4">Infrastructure HTA</p>
+            <p className="text-primary text-sm font-bold uppercase tracking-[0.3em] mb-4">{t("home.image1.kicker")}</p>
             <h3 className="text-3xl md:text-5xl font-heading font-black text-white leading-tight">
-              Lignes haute tension,<br />réseaux de distribution
+              {t("home.image1.title")}
             </h3>
           </div>
         </div>
@@ -298,15 +298,15 @@ export const HomeContent = () => {
           </div>
           <div className="img-street-text opacity-0 flex items-center bg-[#0a0f0d] px-12 md:px-20 py-20">
             <div>
-              <p className="text-primary text-sm font-bold uppercase tracking-[0.3em] mb-6">Éclairage Public</p>
+              <p className="text-primary text-sm font-bold uppercase tracking-[0.3em] mb-6">{t("home.image2.kicker")}</p>
               <h3 className="text-2xl md:text-4xl lg:text-5xl font-heading font-black text-white leading-tight mb-8">
-                Des villes mieux éclairées,<br />une énergie maîtrisée
+                {t("home.image2.title")}
               </h3>
               <p className="text-white/50 text-lg leading-relaxed mb-10">
-                Nos solutions LED avec télécontrôle réduisent la consommation des collectivités jusqu'à 70%.
+                {t("home.image2.text")}
               </p>
               <Link href="/services" className="inline-flex items-center gap-2 text-primary font-bold tracking-wider text-sm uppercase hover:gap-4 transition-all">
-                Voir l'offre éclairage <ChevronRight size={16} />
+                {t("home.image2.cta")} <ChevronRight size={16} />
               </Link>
             </div>
           </div>
@@ -351,9 +351,9 @@ export const HomeContent = () => {
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f0d]/80 via-[#0a0f0d]/20 to-transparent z-10" />
         <div className="absolute bottom-12 left-8 md:left-20 z-20">
-          <p className="text-primary text-sm font-bold uppercase tracking-[0.3em] mb-3">Distribution & Contrôle</p>
+          <p className="text-primary text-sm font-bold uppercase tracking-[0.3em] mb-3">{t("home.image3.kicker")}</p>
           <h3 className="text-3xl md:text-4xl lg:text-5xl font-heading font-black text-white uppercase tracking-tight">
-            TGBT, automatisme<br />& supervision SCADA
+            {t("home.image3.title")}
           </h3>
         </div>
       </div>
