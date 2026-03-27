@@ -17,18 +17,18 @@ if (typeof window !== "undefined") {
 // ── Methode Accordion ─────────────────────────────────────────────────────
 // State-driven to avoid CSS group-hover jitter when multiple panels compete.
 const PANEL_ASSETS = [
-  { svg: "/icons/bolt.svg",     json: "/icons/bolt.json" },
-  { svg: "/icons/lightbulb.svg", json: "/icons/lightbulb.json" },
-  { svg: "/icons/reports.svg",  json: "/icons/reports.json" },
-  { svg: "/icons/Security.svg", json: "/icons/Security.json" },
-  { svg: "/icons/Success.svg",  json: "/icons/Success.json" },
+  { svg: "/icons/bolt.svg",     json: "/icons/bolt.json",     img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80" },
+  { svg: "/icons/lightbulb.svg", json: "/icons/lightbulb.json", img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&q=80" },
+  { svg: "/icons/reports.svg",  json: "/icons/reports.json",  img: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=800&q=80" },
+  { svg: "/icons/Security.svg", json: "/icons/Security.json", img: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=800&q=80" },
+  { svg: "/icons/Success.svg",  json: "/icons/Success.json",  img: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=800&q=80" },
 ];
 
 const MethodeAccordion = ({ t }: { t: (key: string) => string }) => {
   const [active, setActive] = useState<number | null>(null);
 
   return (
-    <div className="flex flex-col lg:flex-row rounded-3xl overflow-hidden border border-gray-100 min-h-[420px] lg:h-[500px]">
+    <div className="flex flex-col lg:flex-row rounded-3xl overflow-hidden border border-gray-100 lg:h-[500px]">
       {[1, 2, 3, 4, 5].map((i) => {
         const isActive = active === i;
         const isIdle   = active !== null && active !== i;
@@ -39,42 +39,55 @@ const MethodeAccordion = ({ t }: { t: (key: string) => string }) => {
             onMouseEnter={() => setActive(i)}
             onMouseLeave={() => setActive(null)}
             style={{
-              flex: isActive ? 4 : isIdle ? 0.6 : 1,
-              transition: "flex 0.6s cubic-bezier(0.4,0,0.2,1), background-color 0.4s ease",
+              flex: isActive ? 3 : isIdle ? 0.55 : 1,
+              transition: "flex 0.55s cubic-bezier(0.4,0,0.2,1), background-color 0.4s ease",
             }}
-            className={`relative flex flex-col justify-center items-center lg:items-start
-                        px-6 lg:px-10 py-10 overflow-hidden cursor-default
-                        border-b lg:border-b-0 lg:border-r border-gray-100 last:border-0
-                        ${isActive ? "bg-[#0a0f0d]" : "bg-[#fbfbfb]"}`}
+            className={`relative flex flex-col justify-end lg:justify-start 
+                        px-6 lg:px-8 py-8 lg:py-10 overflow-hidden cursor-default
+                        border-b lg:border-b-0 lg:border-r border-gray-100 last:border-0 min-h-[300px] lg:min-h-0
+                        ${isActive ? "bg-[#0a0f0d] z-10 shadow-2xl" : "bg-[#fbfbfb] z-0"}`}
           >
+            {/* Background Image */}
+            <div 
+              className="absolute inset-0 bg-cover bg-center origin-center transition-all duration-700 ease-out z-0 pointer-events-none"
+              style={{ 
+                backgroundImage: `url(${PANEL_ASSETS[i - 1].img})`,
+                opacity: isActive ? 0.15 : 0,
+                transform: isActive ? "scale(1.05)" : "scale(1)"
+              }}
+            />
+
+            {/* Top Animated Line */}
+            <div 
+              className="absolute top-0 left-0 h-[3px] bg-primary z-10 transition-all duration-500 ease-in-out"
+              style={{ width: isActive ? "100%" : "48px" }}
+            />
+
             {/* Ghost number */}
             <span
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-                         text-[8rem] lg:text-[12rem] font-black font-heading pointer-events-none select-none
-                         transition-colors duration-500"
-              style={{ color: isActive ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.06)" }}
+              className="absolute bottom-6 right-6 lg:bottom-4 lg:right-6
+                         text-[4rem] lg:text-[5rem] font-black font-heading pointer-events-none select-none z-10
+                         transition-colors duration-500 leading-none"
+              style={{ color: isActive ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)" }}
             >
               0{i}
             </span>
 
-            <div className="relative z-10 w-full flex flex-col items-center lg:items-start text-center lg:text-left">
+            <div className="relative z-20 w-full flex flex-col items-start text-left h-full justify-between lg:justify-start">
               {/* Icon — SVG at rest, Lottie when active (crossfade) */}
-              <div className="relative w-12 h-12 mb-6 flex-shrink-0">
-                {/* Static SVG — visible when NOT active */}
+              <div className="relative w-12 h-12 mb-6 lg:mb-8 flex-shrink-0">
                 <img
                   src={PANEL_ASSETS[i - 1].svg}
                   alt=""
-                  className="absolute inset-0 w-full h-full object-contain"
+                  className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300"
                   style={{
                     opacity: isActive ? 0 : 1,
                     filter: "grayscale(1) brightness(0.6)",
-                    transition: "opacity 0.35s ease",
                   }}
                 />
-                {/* Lottie — fades in + plays when active */}
                 <div
-                  className="absolute inset-0"
-                  style={{ opacity: isActive ? 1 : 0, transition: "opacity 0.35s ease" }}
+                  className="absolute inset-0 transition-opacity duration-300"
+                  style={{ opacity: isActive ? 1 : 0 }}
                 >
                   <LottieIcon
                     iconPath={PANEL_ASSETS[i - 1].json}
@@ -84,41 +97,44 @@ const MethodeAccordion = ({ t }: { t: (key: string) => string }) => {
                 </div>
               </div>
 
-              {/* Title */}
-              <h3
-                className="font-heading font-bold text-xl lg:text-2xl transition-colors duration-400 whitespace-nowrap lg:whitespace-normal"
-                style={{ color: isActive ? "#ffffff" : "#111827" }}
-              >
-                {t(`home.process.${i}`)}
-              </h3>
+              <div className="flex flex-col flex-grow w-full justify-start">
+                 {/* Title */}
+                 <h3
+                   className="font-heading font-extrabold text-lg lg:text-xl transition-colors duration-400 whitespace-nowrap lg:whitespace-normal mb-2 lg:mb-4"
+                   style={{ color: isActive ? "#ffffff" : "#111827" }}
+                 >
+                   {t(`home.process.${i}`)}
+                 </h3>
 
-              {/* Description — reveals only when active */}
-              <div
-                style={{
-                  maxHeight: isActive ? "200px" : "0px",
-                  opacity: isActive ? 1 : 0,
-                  transition: "max-height 0.5s ease, opacity 0.4s ease",
-                  overflow: "hidden",
-                  marginTop: isActive ? "1rem" : "0",
-                }}
-              >
-                <p className="text-white/60 text-base leading-relaxed max-w-xs">
-                  {t(`home.process.${i}.desc`)}
-                </p>
-              </div>
+                 {/* Description — reveals only when active */}
+                 <div
+                   style={{
+                     maxHeight: isActive ? "200px" : "0px",
+                     opacity: isActive ? 1 : 0,
+                     transform: isActive ? "translateY(0)" : "translateY(10px)",
+                     transition: "all 0.4s cubic-bezier(0.4,0,0.2,1)",
+                     overflow: "hidden",
+                   }}
+                 >
+                   <p className="text-white/70 text-sm leading-relaxed max-w-xs">
+                     {t(`home.process.${i}.desc`)}
+                   </p>
+                 </div>
 
-              {/* Arrow — shows when active */}
-              <div
-                style={{
-                  opacity: isActive ? 1 : 0,
-                  transform: isActive ? "translateY(0)" : "translateY(8px)",
-                  transition: "opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s",
-                  marginTop: "1.5rem",
-                }}
-              >
-                <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-primary hover:border-primary hover:text-black transition-all">
-                  <ChevronRight className="w-4 h-4" />
-                </div>
+                 {/* Arrow & "Learn More" */}
+                 <div
+                   style={{
+                     opacity: isActive ? 1 : 0,
+                     transform: isActive ? "translateX(0)" : "translateX(-8px)",
+                     transition: "all 0.4s cubic-bezier(0.4,0,0.2,1) 0.1s",
+                     marginTop: "auto",
+                     paddingTop: "1.5rem"
+                   }}
+                   className="flex items-center gap-2"
+                 >
+                   <span className="text-[0.67rem] font-bold uppercase tracking-widest text-primary">Découvrir</span>
+                   <ChevronRight className="w-4 h-4 text-primary" />
+                 </div>
               </div>
             </div>
           </div>
@@ -189,12 +205,18 @@ export const HomeContent = () => {
     { icon: "/icons/reports.json", idx: 3 },
   ];
 
+  const renderTitleWithoutNumber = (value: string) => {
+    const match = value.match(/^\d{2}\s+(.+)$/);
+    if (!match) return value;
+    return match[1];
+  };
+
   return (
     <div ref={ref} className="w-full text-gray-800">
 
       {/* Stats Band — full width dark */}
       <section data-navbar="light" className="bg-[#0a0f0d] py-20 border-t border-white/5">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto max-w-7xl px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
             {[1, 2, 3, 4].map(i => (
               <div key={i} className="reveal opacity-0 translate-y-6 text-center">
@@ -206,11 +228,13 @@ export const HomeContent = () => {
         </div>
       </section>
 
-      {/* Notre Mission — dramatic white */}
+      {/* Notre Mission — brand green */}
       <section data-navbar="dark" className="py-40 bg-white">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto max-w-7xl px-6">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-gray-900 mb-8 md:mb-12 uppercase tracking-tight">{t("home.mission.title")}</h2>
+            <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-primary mb-8 md:mb-12 uppercase tracking-tight">
+              {t("home.mission.title")}
+            </h2>
             <p className="reveal opacity-0 translate-y-8 text-base md:text-xl lg:text-2xl text-gray-500 leading-relaxed max-w-3xl mx-auto">
               {t("home.mission.text")}
             </p>
@@ -229,7 +253,7 @@ export const HomeContent = () => {
           unoptimized
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a0f0d]/70 via-transparent to-[#0a0f0d]/40 z-10" />
-        <div className="absolute inset-0 z-20 flex items-center px-8 md:px-20">
+        <div className="absolute inset-0 z-20 flex items-center px-6 lg:px-10">
           <div className="max-w-lg">
             <p className="text-primary text-sm font-bold uppercase tracking-[0.3em] mb-4">{t("home.image1.kicker")}</p>
             <h3 className="text-3xl md:text-5xl font-heading font-black text-white leading-tight">
@@ -241,7 +265,7 @@ export const HomeContent = () => {
 
       {/* Nos Domaines — on dark background with 3D Lottie cards */}
       <section data-navbar="light" className="py-24 md:py-40 bg-[#0a0f0d]">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto max-w-7xl px-6">
           <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-white mb-16 md:mb-20 text-center uppercase tracking-tight">
             {t("home.domains.title")}
           </h2>
@@ -296,7 +320,7 @@ export const HomeContent = () => {
               unoptimized
             />
           </div>
-          <div className="img-street-text opacity-0 flex items-center bg-[#0a0f0d] px-12 md:px-20 py-20">
+          <div className="img-street-text opacity-0 flex items-center bg-[#0a0f0d] px-6 lg:px-12 py-20">
             <div>
               <p className="text-primary text-sm font-bold uppercase tracking-[0.3em] mb-6">{t("home.image2.kicker")}</p>
               <h3 className="text-2xl md:text-4xl lg:text-5xl font-heading font-black text-white leading-tight mb-8">
@@ -314,14 +338,28 @@ export const HomeContent = () => {
       </section>
 
       {/* Pourquoi WadNoun — accent section (Green bg, White navbar) */}
-      <section data-navbar="light" className="py-40 bg-primary">
-        <div className="container mx-auto px-6">
-          <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-7xl font-heading font-extrabold text-[#0a0f0d] mb-16 md:mb-20 uppercase tracking-tight">{t("home.why.title")}</h2>
+      <section
+        data-navbar="light"
+        className="py-40 bg-primary select-text"
+        style={{ userSelect: "text", WebkitUserSelect: "text" }}
+      >
+        <div className="container mx-auto max-w-7xl px-6">
+          <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-7xl font-heading font-extrabold text-[#0a0f0d] mb-16 md:mb-20 uppercase tracking-tight select-text">{t("home.why.title")}</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
             {[1, 2, 3, 4, 5].map(i => (
               <div key={i} className="reveal opacity-0 translate-y-8">
-                <h3 className="text-lg font-bold mb-3 font-heading text-[#0a0f0d]/80">{t(`home.why.${i}.title`)}</h3>
-                <p className="text-[#0a0f0d]/60 leading-relaxed">{t(`home.why.${i}.text`)}</p>
+                <h3
+                  className="text-lg font-bold mb-3 font-heading text-white/95 select-text"
+                  style={{ userSelect: "text", WebkitUserSelect: "text", pointerEvents: "auto" }}
+                >
+                  {renderTitleWithoutNumber(t(`home.why.${i}.title`))}
+                </h3>
+                <p
+                  className="text-[#0a0f0d]/60 leading-relaxed select-text"
+                  style={{ userSelect: "text", WebkitUserSelect: "text", pointerEvents: "auto" }}
+                >
+                  {t(`home.why.${i}.text`)}
+                </p>
               </div>
             ))}
           </div>
@@ -330,10 +368,12 @@ export const HomeContent = () => {
 
       {/* Notre Méthode — Interactive Accordion */}
       <section data-navbar="dark" className="py-24 md:py-40 bg-white">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto max-w-7xl px-6">
           <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-center text-gray-900 mb-16 md:mb-20 uppercase tracking-tight">{t("home.process.title")}</h2>
-          
-          <MethodeAccordion t={t} />
+
+          <div className="max-w-7xl mx-auto">
+            <MethodeAccordion t={t} />
+          </div>
         </div>
       </section>
 
@@ -350,7 +390,7 @@ export const HomeContent = () => {
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f0d]/80 via-[#0a0f0d]/20 to-transparent z-10" />
-        <div className="absolute bottom-12 left-8 md:left-20 z-20">
+        <div className="absolute bottom-12 left-6 lg:left-12 z-20">
           <p className="text-primary text-sm font-bold uppercase tracking-[0.3em] mb-3">{t("home.image3.kicker")}</p>
           <h3 className="text-3xl md:text-4xl lg:text-5xl font-heading font-black text-white uppercase tracking-tight">
             {t("home.image3.title")}
@@ -360,7 +400,7 @@ export const HomeContent = () => {
 
       {/* Testimonials — dark */}
       <section data-navbar="light" className="py-40 bg-[#0a0f0d]">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto max-w-7xl px-6">
           <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-white mb-16 md:mb-20 text-center uppercase tracking-tight">{t("home.tests.title")}</h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {[1, 2, 3].map(i => (

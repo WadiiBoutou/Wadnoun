@@ -11,16 +11,12 @@ export const AboutHero = () => {
 
   useGSAP(() => {
     const tl = gsap.timeline({ delay: 0.3 });
-    tl.to(".hero-kicker", { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" })
-      .to(".hero-line", { opacity: 1, y: 0, duration: 1.2, stagger: 0.15, ease: "power3.out" }, "-=0.4")
+    tl.to(".hero-line", { opacity: 1, y: 0, duration: 1.2, stagger: 0.15, ease: "power3.out" })
       .to(".hero-sub", { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, "-=0.6")
       .to(".hero-stat", { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power2.out" }, "-=0.4")
       ;
   }, { scope: container });
 
-  // Text values from user example
-  const kickerPrefix = "02 — ";
-  const kickerText = t("nav.about").toUpperCase();
   const titleLine1 = t("about.hero.title.line1");
   const titleLine2 = t("about.hero.title.line2");
   const titleAccent = t("about.hero.title.line3");
@@ -46,21 +42,16 @@ export const AboutHero = () => {
       </div>
 
       <div className="relative z-10 container mx-auto px-6 md:px-16 pt-32 pb-20">
-        {/* Kicker */}
-        <p className="hero-kicker opacity-0 translate-y-4 text-xs md:text-sm font-bold tracking-[0.3em] text-primary mb-8 font-heading uppercase">
-          {kickerPrefix}{kickerText}
-        </p>
-
-        {/* Giant heading — Updated with font-black (900) to match the screenshot better */}
+        {/* Giant heading */}
         <div className="max-w-6xl">
-          <h1 className="font-heading font-black leading-[0.9] tracking-tighter text-white mb-10">
-            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2.5rem,7vw,6.5rem)] lg:text-[clamp(3.5rem,8vw,7.5rem)]">
+          <h1 className="font-heading font-semibold leading-[0.95] tracking-tight text-white mb-10">
+            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2rem,6.5vw,5rem)] lg:text-[clamp(3rem,7vw,6rem)]">
               {titleLine1}
             </span>
-            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2.5rem,7vw,6.5rem)] lg:text-[clamp(3.5rem,8vw,7.5rem)]">
+            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2rem,6.5vw,5rem)] lg:text-[clamp(3rem,7vw,6rem)]">
               {titleLine2}
             </span>
-            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2.5rem,7vw,6.5rem)] lg:text-[clamp(3.5rem,8vw,7.5rem)] text-primary">
+            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2rem,6.5vw,5rem)] lg:text-[clamp(3rem,7vw,6rem)] text-primary">
               {titleAccent}
             </span>
           </h1>

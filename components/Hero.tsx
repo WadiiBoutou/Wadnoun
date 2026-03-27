@@ -36,17 +36,17 @@ export const Hero = () => {
       </div>
 
       {/* Content container now has pointer-events-none to let you 'reach through' to the Spline backdrop */}
-      <div className="relative z-10 container mx-auto px-6 md:px-16 pt-32 pb-20 pointer-events-none">
+      <div className="relative z-10 container mx-auto px-6 pt-32 pb-20 pointer-events-none">
         {/* Giant heading — Style matches home hero */}
         <div className="max-w-6xl">
-          <h1 className="font-heading font-extrabold leading-[0.95] tracking-tight text-white select-none">
-            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2.2rem,7vw,5.5rem)] lg:text-[clamp(3.5rem,8vw,6.5rem)]">
+          <h1 className="font-heading font-semibold leading-[0.95] tracking-tight text-white select-none">
+            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2rem,6.5vw,5rem)] lg:text-[clamp(3rem,7vw,6rem)]">
               {t("home.hero.title.line1")}
             </span>
-            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2.2rem,7vw,5.5rem)] lg:text-[clamp(3.5rem,8vw,6.5rem)]">
+            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2rem,6.5vw,5rem)] lg:text-[clamp(3rem,7vw,6rem)]">
               {t("home.hero.title.line2")}
             </span>
-            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2.2rem,7vw,5.5rem)] lg:text-[clamp(3.5rem,8vw,6.5rem)] text-primary">
+            <span className="hero-line block opacity-0 translate-y-12 text-[clamp(2rem,6.5vw,5rem)] lg:text-[clamp(3rem,7vw,6rem)] text-primary">
               {t("home.hero.title.line3")}
             </span>
           </h1>

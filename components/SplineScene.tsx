@@ -16,10 +16,6 @@ export const SplineScene = ({ isArabic = false }: { isArabic?: boolean }) => {
       const canvas = container.querySelector("canvas");
       if (!canvas) return;
 
-      console.log("[SPLINE] Canvas found, beginning non-destructive patch");
-      console.log("[SPLINE] Canvas size:", canvas.offsetWidth, "x", canvas.offsetHeight);
-      console.log("[SPLINE] pointer-events:", getComputedStyle(canvas).pointerEvents);
-
       // ── WHEEL FIX (non-destructive) ────────────────────────────────────
       // We intercept at the container level with capture:true
       // This fires BEFORE the canvas listener, giving us first access
@@ -31,12 +27,6 @@ export const SplineScene = ({ isArabic = false }: { isArabic?: boolean }) => {
 
         if (isForwarding) return;
         isForwarding = true;
-
-        console.log("[WHEEL INTERCEPTED]", {
-          deltaY: e.deltaY,
-          ctrlKey: e.ctrlKey,
-          cancelable: e.cancelable,
-        });
 
         // Re-dispatch as non-cancelable so Lenis/browser can process it
         const syntheticEvent = new WheelEvent("wheel", {
@@ -50,8 +40,6 @@ export const SplineScene = ({ isArabic = false }: { isArabic?: boolean }) => {
         });
 
         window.dispatchEvent(syntheticEvent);
-        console.log("[WHEEL FORWARDED] non-cancelable event sent to window");
-
         isForwarding = false;
       };
 
@@ -81,7 +69,6 @@ export const SplineScene = ({ isArabic = false }: { isArabic?: boolean }) => {
           if (dx > 8 || dy > 8) {
             isScrollIntent = dy > dx;
             intentDecided = true;
-            console.log("[TOUCH INTENT]", isScrollIntent ? "SCROLL (blocking Spline)" : "ROTATE (letting Spline handle)");
           }
         }
         if (isScrollIntent) {
@@ -95,22 +82,10 @@ export const SplineScene = ({ isArabic = false }: { isArabic?: boolean }) => {
         capture: true,
       });
 
-      // ── VERIFY WINDOW IS RECEIVING EVENTS ─────────────────────────────
-      const verifyWindow = (e: WheelEvent) => {
-        console.log("[WINDOW WHEEL RECEIVED]", {
-          deltaY: e.deltaY,
-          cancelable: e.cancelable, // should be FALSE
-          ctrlKey: e.ctrlKey,
-        });
-      };
-      window.addEventListener("wheel", verifyWindow, { passive: true });
-
       return () => {
         container.removeEventListener("wheel", onWheel, { capture: true });
         container.removeEventListener("touchstart", onTouchStart);
         container.removeEventListener("touchmove", onTouchMove, { capture: true });
-        window.removeEventListener("wheel", verifyWindow);
-        console.log("[SPLINE] Cleanup complete");
       };
     };
 
@@ -142,7 +117,6 @@ export const SplineScene = ({ isArabic = false }: { isArabic?: boolean }) => {
         scene="/scene.splinecode"
         onLoad={(app) => {
           splineApp.current = app;
-          console.log("[SPLINE] onLoad fired, app:", app);
         }}
         className="w-full h-full object-cover scale-110 md:scale-105 bg-[#0a0f0d] placeholder:bg-[#0a0f0d]"
       />

@@ -59,196 +59,87 @@ export const ServicesContent = () => {
 
       {/* Hero */}
       <section data-navbar="dark" className="pt-40 pb-32 bg-white text-center px-6">
-        <h1 className="reveal opacity-0 translate-y-10 blur-[18px] text-5xl md:text-8xl font-heading font-extrabold text-gray-900 mb-8">{t("services.hero.title")}</h1>
+        <h1 className="reveal opacity-0 translate-y-10 blur-[18px] text-5xl md:text-8xl font-heading font-extrabold text-primary mb-8">{t("services.hero.title")}</h1>
         <p className="reveal opacity-0 translate-y-8 blur-[18px] text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto">{t("services.hero.subtitle")}</p>
       </section>
 
-      {/* Services 1 & 2 */}
-      {[1, 2].map((i) => (
-        <section key={i} data-navbar={i % 2 === 0 ? "dark" : "light"} className={`py-12 md:py-14 ${i % 2 === 0 ? "bg-white" : "bg-[#0a0f0d]"}`}>
-          <div className="container mx-auto px-6 max-w-5xl">
-            <div className={`flex flex-col md:flex-row gap-4 items-stretch ${i % 2 === 0 ? "md:flex-row-reverse" : ""}`}>
-              <div
-                data-svc-dir={i % 2 === 0 ? "right" : "left"}
-                className="svc-left-img relative w-full md:w-1/2 overflow-hidden rounded-3xl min-h-[160px] md:min-h-[210px]"
-              >
-                <Image
-                  src={
-                    i === 1
-                      ? "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1800&q=85"
-                      : "https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=1800&q=85"
-                  }
-                  alt={i === 1 ? "Lignes électriques haute tension" : "Poste de transformation électrique"}
-                  fill
-                  className="object-cover object-center"
-                  sizes="50vw"
-                  unoptimized
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#0a0f0d]/65 via-[#0a0f0d]/20 to-transparent" />
-              </div>
+      {/* Services List — alternating black/white bands */}
+      {[
+        {
+          idx: 1,
+          image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1800&q=85",
+          alt: "Lignes électriques haute tension",
+        },
+        {
+          idx: 2,
+          image: "https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=1800&q=85",
+          alt: "Poste de transformation électrique",
+        },
+        {
+          idx: 3,
+          image: "https://images.unsplash.com/photo-1513828583688-c52646db42da?w=1800&q=85",
+          alt: "Éclairage public LED la nuit",
+        },
+        {
+          idx: 4,
+          image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1800&q=85",
+          alt: "Tableau de distribution électrique",
+        },
+        {
+          idx: 5,
+          image: "https://images.unsplash.com/photo-1497366412874-3415097a27e7?w=1800&q=85",
+          alt: "Économie d'énergie et supervision",
+        },
+        {
+          idx: 6,
+          image: "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?w=1800&q=85",
+          alt: "Technicien et maintenance électrique",
+        },
+      ].map(({ idx, image, alt }) => {
+        const isEven = idx % 2 === 0;
+        const number = String(idx).padStart(2, "0");
 
-              <div
-                className="flex flex-col md:flex-row gap-4 items-start flex-1"
-              >
-                <div className="md:w-1/4 flex flex-col items-center md:items-start gap-4">
-                  <span
-                    className={`reveal opacity-0 translate-y-8 blur-[18px] ${
-                      i % 2 === 0 ? "translate-x-[30px]" : "translate-x-[-30px]"
-                    } text-6xl md:text-7xl font-heading font-black leading-none ${
-                      i % 2 === 0 ? "text-gray-100" : "text-white/5"
-                    }`}
-                  >
-                    0{i}
-                  </span>
+        return (
+          <section
+            key={idx}
+            data-navbar={isEven ? "dark" : "light"}
+            className={`py-20 md:py-24 ${isEven ? "bg-white" : "bg-[#040404]"}`}
+          >
+            <div className="container mx-auto px-6">
+              <article className="grid md:grid-cols-2 gap-8 lg:gap-16 items-center max-w-7xl mx-auto">
+                <div className={`${isEven ? "md:order-2" : "md:order-1"} svc-left-img relative overflow-hidden rounded-2xl aspect-[4/4.5]`} data-svc-dir={isEven ? "right" : "left"}>
+                  <Image
+                    src={image}
+                    alt={alt}
+                    fill
+                    className="object-cover object-center scale-110"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    unoptimized
+                  />
+                  <div className="absolute inset-0 bg-black/25" />
                 </div>
-                <div className="md:w-3/4">
-                  <h2 className={`reveal opacity-0 translate-y-8 blur-[18px] text-2xl md:text-3xl font-heading font-bold mb-3 ${i % 2 === 0 ? "text-gray-900" : "text-white"}`}>
-                    {t(`services.s${i}.title`)}
-                  </h2>
-                  <p className={`reveal opacity-0 translate-y-8 blur-[18px] text-base md:text-lg leading-relaxed mb-4 ${i % 2 === 0 ? "text-gray-500" : "text-white/60"}`}>
-                    {t(`services.s${i}.text`)}
-                  </p>
-                  <div className={`reveal opacity-0 translate-y-6 blur-[18px] text-sm font-bold uppercase tracking-[0.2em] ${i % 2 === 0 ? "text-primary" : "text-primary/80"}`}>
-                    {t(`services.s${i}.tags`)}
+
+                <div className={`${isEven ? "md:order-1" : "md:order-2"} relative`}>
+                  <span className="reveal opacity-0 translate-y-8 blur-[18px] absolute -top-8 -left-2 md:-top-10 md:-left-6 text-[6rem] md:text-[8rem] font-heading font-black leading-none text-primary/15 pointer-events-none">
+                    {number}
+                  </span>
+                  <div className="reveal opacity-0 translate-y-8 blur-[18px] relative z-10">
+                    <h2 className={`text-3xl md:text-4xl font-heading font-extrabold mb-5 leading-tight ${isEven ? "text-gray-900" : "text-white"}`}>
+                      {t(`services.s${idx}.title`)}
+                    </h2>
+                    <p className={`text-base md:text-lg leading-relaxed mb-8 ${isEven ? "text-gray-500" : "text-white/60"}`}>
+                      {t(`services.s${idx}.text`)}
+                    </p>
+                    <div className="text-sm font-bold uppercase tracking-[0.2em] text-primary">
+                      {t(`services.s${idx}.tags`)}
+                    </div>
                   </div>
                 </div>
-              </div>
+              </article>
             </div>
-          </div>
-        </section>
-      ))}
-
-      {/* Services 3 */}
-      <section data-navbar="light" className="py-12 md:py-14 bg-[#0a0f0d]">
-        <div className="container mx-auto px-6 max-w-5xl">
-          <div className="flex flex-col md:flex-row gap-4 items-stretch">
-            <div
-              data-svc-dir="left"
-              className="svc-left-img relative w-full md:w-1/2 overflow-hidden rounded-3xl min-h-[160px] md:min-h-[210px]"
-            >
-              <Image
-                src="https://images.unsplash.com/photo-1513828583688-c52646db42da?w=1800&q=85"
-                alt="Éclairage public LED la nuit"
-                fill
-                className="object-cover object-center"
-                sizes="50vw"
-                unoptimized
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0a0f0d]/65 via-[#0a0f0d]/20 to-transparent" />
-            </div>
-
-            <div className="flex flex-col md:flex-row gap-4 items-start flex-1">
-              <div className="md:w-1/4 flex flex-col items-center md:items-start gap-4">
-                <span className="reveal opacity-0 translate-y-8 blur-[18px] translate-x-[-30px] text-6xl md:text-7xl font-heading font-black leading-none text-white/5">03</span>
-              </div>
-              <div className="md:w-3/4">
-                <h2 className="reveal opacity-0 translate-y-8 blur-[18px] text-2xl md:text-3xl font-heading font-bold mb-3 text-white">{t("services.s3.title")}</h2>
-                <p className="reveal opacity-0 translate-y-8 blur-[18px] text-base md:text-lg leading-relaxed mb-4 text-white/60">{t("services.s3.text")}</p>
-                <div className="reveal opacity-0 translate-y-6 blur-[18px] text-sm font-bold uppercase tracking-[0.2em] text-primary/80">{t("services.s3.tags")}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services 4 */}
-      <section data-navbar="dark" className="py-12 md:py-14 bg-white">
-        <div className="container mx-auto px-6 max-w-5xl">
-          <div className="flex flex-col md:flex-row gap-4 items-stretch md:flex-row-reverse">
-            <div
-              data-svc-dir="right"
-              className="svc-left-img relative w-full md:w-1/2 overflow-hidden rounded-3xl min-h-[160px] md:min-h-[210px]"
-            >
-              <Image
-                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1800&q=85"
-                alt="Tableau de distribution électrique"
-                fill
-                className="object-cover object-center"
-                sizes="50vw"
-                unoptimized
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0a0f0d]/35 via-transparent to-[#0a0f0d]/0" />
-            </div>
-
-            <div className="flex flex-col md:flex-row gap-4 items-start flex-1">
-              <div className="md:w-1/4 flex flex-col items-center md:items-start gap-4">
-                <span className="reveal opacity-0 translate-y-8 blur-[18px] translate-x-[30px] text-6xl md:text-7xl font-heading font-black leading-none text-gray-100">04</span>
-              </div>
-              <div className="md:w-3/4">
-                <h2 className="reveal opacity-0 translate-y-8 blur-[18px] text-2xl md:text-3xl font-heading font-bold mb-3 text-gray-900">{t("services.s4.title")}</h2>
-                <p className="reveal opacity-0 translate-y-8 blur-[18px] text-base md:text-lg leading-relaxed mb-4 text-gray-500">{t("services.s4.text")}</p>
-                <div className="reveal opacity-0 translate-y-6 blur-[18px] text-sm font-bold uppercase tracking-[0.2em] text-primary">{t("services.s4.tags")}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services 5 */}
-      <section data-navbar="light" className="py-12 md:py-14 bg-[#0a0f0d]">
-        <div className="container mx-auto px-6 max-w-5xl">
-          <div className="flex flex-col md:flex-row gap-4 items-stretch">
-            <div
-              data-svc-dir="left"
-              className="svc-left-img relative w-full md:w-1/2 overflow-hidden rounded-3xl min-h-[160px] md:min-h-[210px]"
-            >
-              <Image
-                src="https://images.unsplash.com/photo-1497366412874-3415097a27e7?w=1800&q=85"
-                alt="Économie d'énergie et supervision"
-                fill
-                className="object-cover object-center"
-                sizes="50vw"
-                unoptimized
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0a0f0d]/65 via-[#0a0f0d]/20 to-transparent" />
-            </div>
-
-            <div className="flex flex-col md:flex-row gap-4 items-start flex-1">
-              <div className="md:w-1/4 flex flex-col items-center md:items-start gap-4">
-                <span className="reveal opacity-0 translate-y-8 blur-[18px] translate-x-[-30px] text-6xl md:text-7xl font-heading font-black leading-none text-white/5">05</span>
-              </div>
-              <div className="md:w-3/4">
-                <h2 className="reveal opacity-0 translate-y-8 blur-[18px] text-2xl md:text-3xl font-heading font-bold mb-3 text-white">{t("services.s5.title")}</h2>
-                <p className="reveal opacity-0 translate-y-8 blur-[18px] text-base md:text-lg leading-relaxed mb-4 text-white/60">{t("services.s5.text")}</p>
-                <div className="reveal opacity-0 translate-y-6 blur-[18px] text-sm font-bold uppercase tracking-[0.2em] text-primary/80">{t("services.s5.tags")}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services 6 */}
-      <section data-navbar="dark" className="py-12 md:py-14 bg-white">
-        <div className="container mx-auto px-6 max-w-5xl">
-          <div className="flex flex-col md:flex-row gap-4 items-stretch md:flex-row-reverse">
-            <div
-              data-svc-dir="right"
-              className="svc-left-img relative w-full md:w-1/2 overflow-hidden rounded-3xl min-h-[160px] md:min-h-[210px]"
-            >
-              <Image
-                src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?w=1800&q=85"
-                alt="Technicien et maintenance électrique"
-                fill
-                className="object-cover object-center"
-                sizes="50vw"
-                unoptimized
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0a0f0d]/35 via-transparent to-[#0a0f0d]/0" />
-            </div>
-
-            <div className="flex flex-col md:flex-row gap-4 items-start flex-1">
-              <div className="md:w-1/4 flex flex-col items-center md:items-start gap-4">
-                <span className="reveal opacity-0 translate-y-8 blur-[18px] translate-x-[30px] text-6xl md:text-7xl font-heading font-black leading-none text-gray-100">06</span>
-              </div>
-              <div className="md:w-3/4">
-                <h2 className="reveal opacity-0 translate-y-8 blur-[18px] text-2xl md:text-3xl font-heading font-bold mb-3 text-gray-900">{t("services.s6.title")}</h2>
-                <p className="reveal opacity-0 translate-y-8 blur-[18px] text-base md:text-lg leading-relaxed mb-4 text-gray-500">{t("services.s6.text")}</p>
-                <div className="reveal opacity-0 translate-y-6 blur-[18px] text-sm font-bold uppercase tracking-[0.2em] text-primary">{t("services.s6.tags")}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+          </section>
+        );
+      })}
 
       {/* Offres — accent */}
       <section data-navbar="dark" className="py-40 bg-primary">

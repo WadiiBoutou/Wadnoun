@@ -98,7 +98,7 @@ export const AboutContent = () => {
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {[1, 2, 3, 4].map(i => (
               <div key={i} className="reveal opacity-0 translate-y-8 bg-[#0a0f0d]/10 p-10 rounded-2xl border border-[#0a0f0d]/10">
-                <div className="text-[#0a0f0d]/60 mb-6">{icons[i - 1]}</div>
+                <div className="text-white/60 mb-6">{icons[i - 1]}</div>
                 <h3 className="text-2xl font-bold font-heading mb-4 text-[#0a0f0d]">{t(`about.values.${i}.title`)}</h3>
                 <p className="text-[#0a0f0d]/60 leading-relaxed">{t(`about.values.${i}.text`)}</p>
               </div>
@@ -107,43 +107,36 @@ export const AboutContent = () => {
         </div>
       </section>
 
-      {/* IMAGE 2 — Staggered pair: urban infrastructure + night city */}
-      <section data-navbar="dark" className="py-24 bg-white overflow-hidden">
+      {/* IMAGE + CONTENT PAIRS — each image aligned with its own description */}
+      <section data-navbar="dark" className="py-24 md:py-32 bg-white overflow-hidden">
         <div className="container mx-auto px-6">
-          <div className="about-img-2-wrap grid grid-cols-2 gap-4 max-w-4xl mx-auto">
-            <div className="about-img-2a opacity-0 relative overflow-hidden rounded-2xl" style={{ aspectRatio: "3/4" }}>
-              <Image
-                src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=900&q=85"
-                alt="Infrastructure urbaine électrique"
-                fill
-                className="object-cover object-center"
-                sizes="33vw"
-                unoptimized
-              />
-            </div>
-            <div className="about-img-2b opacity-0 relative overflow-hidden rounded-2xl mt-12" style={{ aspectRatio: "3/4" }}>
-              <Image
-                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=85"
-                alt="Travaux d'électrification"
-                fill
-                className="object-cover object-center"
-                sizes="33vw"
-                unoptimized
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Team & Certifications — white */}
-      <section data-navbar="dark" className="py-40 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-20 max-w-6xl mx-auto">
-            <div>
+          <div className="about-img-2-wrap grid md:grid-cols-2 gap-10 md:gap-16 max-w-6xl mx-auto items-start">
+            <div className="md:-translate-y-8">
+              <div className="about-img-2a opacity-0 relative overflow-hidden rounded-2xl h-[260px] md:h-[351px] mb-10">
+                <Image
+                  src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=900&q=85"
+                  alt="Infrastructure urbaine électrique"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  unoptimized
+                />
+              </div>
               <h2 className="reveal opacity-0 translate-y-6 text-3xl md:text-5xl font-heading font-bold text-gray-900 mb-6">{t("about.team.title")}</h2>
               <p className="reveal opacity-0 translate-y-6 text-lg text-gray-500 leading-relaxed">{t("about.team.text")}</p>
             </div>
-            <div>
+
+            <div className="md:translate-y-8">
+              <div className="about-img-2b opacity-0 relative overflow-hidden rounded-2xl h-[260px] md:h-[351px] mb-10">
+                <Image
+                  src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=85"
+                  alt="Travaux d'électrification"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  unoptimized
+                />
+              </div>
               <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl font-heading font-bold text-gray-900 mb-8">{t("about.cert.title")}</h2>
               <p className="reveal opacity-0 translate-y-8 text-lg text-gray-500 leading-relaxed">{t("about.cert.text")}</p>
             </div>
