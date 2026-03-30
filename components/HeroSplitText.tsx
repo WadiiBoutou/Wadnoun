@@ -149,7 +149,7 @@ export const HeroSplitText = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-[#f5f5f0]"
+      className="relative bg-surface-muted"
       style={{ height: "400vh" }}
     >
       <div className="sticky top-0 left-0 h-screen w-full flex items-center overflow-hidden">
@@ -190,7 +190,7 @@ export const HeroSplitText = () => {
             ref={cardRef}
             className="absolute right-[10%] top-1/2 -translate-y-1/2 w-[500px] h-[550px] rounded-sm overflow-hidden"
             style={{
-              boxShadow: "0 20px 60px rgba(0,0,0,0.08)",
+              boxShadow: "0 20px 60px rgb(var(--color-black-rgb) / 0.08)",
               zIndex: 5,
             }}
           >

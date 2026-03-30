@@ -7,11 +7,17 @@ export const Footer = () => {
   const { language, t } = useLanguage();
   
   return (
-    <footer data-navbar="light" className="bg-[#0a0f0d] text-white py-20 border-t border-white/5">
+    <footer data-navbar="light" className="bg-accent text-white py-20 border-t border-white/5">
       <div className="container mx-auto px-6 md:px-16">
         <div className="grid md:grid-cols-3 gap-16 mb-16">
           <div>
-            <h3 className="text-2xl font-heading font-bold tracking-wider mb-4">WADNOUN AD <span className="text-primary">SARL</span></h3>
+            <Link href="/" className="block w-[120px] h-[90px] mb-6 transition-transform hover:scale-105">
+              <img
+                src="/LOGO-1.png"
+                alt="WadNoun SARL"
+                className="w-full h-full object-contain"
+              />
+            </Link>
             <p className="text-white/40 leading-relaxed max-w-sm">
               {t("footer.description")}
             </p>

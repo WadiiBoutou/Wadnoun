@@ -85,7 +85,7 @@ export const ar = {
   "about.values.4.title": "القرب", "about.values.4.text": "فرق محلية في كل جهة، معرفة دقيقة بالواقع المغربي وتفاعلية لا تستطيع المجموعات الكبرى توفيرها.",
   "about.team.title": "فريقنا",
   "about.team.text": "يضم فريق WadNoun مهندسين في الهندسة الكهربائية خريجي كبرى المدارس المغربية، وتقنيين مؤهلين للضغط المتوسط والمنخفض، ورؤساء أشغال ذوي خبرة، وخبراء في اقتصاد الطاقة. بمتوسط عمر 36 سنة، يجمع فريقنا بين الصرامة الأكاديمية والخبرة الميدانية المكتسبة من مئات مشاريع التكهرب ومحطات التحويل والإنارة العمومية عبر المغرب.",
-  "about.cert.title": "الاعتمادات والتأهيلات",
+  "about.cert.title": "التأهيلات",
   "about.cert.text": "شركة WadNoun SARL معتمدة لدى المكتب الوطني للكهرباء والماء الصالح للشرب للأشغال على شبكات الضغط المتوسط والمنخفض. نعمل وفق معيار NM ISO 9001 والمعايير الأوروبية NF للتجهيزات الكهربائية. يشمل شركاؤنا كبار مصنعي معدات التوزيع وموردي حلول الأتمتة الصناعية.",
   "about.numbers.title": "أرقامنا",
   "about.numbers.v1": "2014", "about.numbers.l1": "سنة التأسيس",
@@ -145,7 +145,7 @@ export const ar = {
   "contact.info.title": "معلومات الاتصال",
   "contact.info.phone": "+212 602 60 60 41",
   "contact.info.email": "contact@wadnoun.ma",
-  "contact.info.address": "أكادير، جهة سوس ماسة، المغرب",
+  "contact.info.address": "سوس ماسة، المغرب",
   "contact.info.hours": "الإثنين – الجمعة، 8:00 – 18:00",
   "contact.wa.text": "انقر أدناه لبدء محادثة مباشرة مع فريقنا التقني.",
   "contact.wa.btn": "التواصل عبر واتساب",
@@ -263,7 +263,7 @@ export const ar = {
   "footer.contact": "اتصال",
   "footer.email": "contact@wadnoun.ma",
   "footer.phone": "+212 602 60 60 41",
-  "footer.address": "أكادير، المغرب",
+  "footer.address": "سوس ماسة، المغرب",
   "footer.copyright": "جميع الحقوق محفوظة.",
 
   // Home Content Images

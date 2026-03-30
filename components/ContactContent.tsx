@@ -37,7 +37,6 @@ export const ContactContent = () => {
     const name = String(formData.get("name") ?? "").trim();
     const email = String(formData.get("email") ?? "").trim();
     const phone = String(formData.get("phone") ?? "").trim();
-    const projectType = String(formData.get("projectType") ?? "").trim();
     const messageText = String(formData.get("message") ?? "").trim();
 
     const intro =
@@ -49,7 +48,6 @@ export const ContactContent = () => {
       `${t("contact.form.name")}: ${name || "-"}`,
       `${t("contact.form.email")}: ${email || "-"}`,
       `${t("contact.form.phone")}: ${phone || "-"}`,
-      `${t("contact.form.type")}: ${projectType || "-"}`,
       `${t("contact.form.msg")}: ${messageText || "-"}`,
     ].join("\n");
 
@@ -61,7 +59,7 @@ export const ContactContent = () => {
     <div ref={ref} className="w-full">
       
       {/* Hero — dark cinematic */}
-      <section data-navbar="light" className="pt-40 pb-32 bg-[#0a0f0d] text-center px-6">
+      <section data-navbar="light" className="pt-40 pb-32 bg-accent text-center px-6">
         <h1 className="reveal opacity-0 translate-y-6 text-4xl md:text-6xl font-heading font-extrabold text-white mb-6">
           {t("contact.hero.title")}
         </h1>
@@ -91,20 +89,10 @@ export const ContactContent = () => {
                   <input name="phone" type="tel" className="w-full bg-gray-50 border-0 border-b-2 border-gray-200 px-0 py-3 outline-none focus:border-primary transition-colors text-base" />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2 tracking-wider uppercase">{t("contact.form.type")}</label>
-                  <select name="projectType" className="w-full bg-gray-50 border-0 border-b-2 border-gray-200 px-0 py-3 outline-none focus:border-primary transition-colors text-base">
-                    <option>{t("contact.form.type.opt1")}</option>
-                    <option>{t("contact.form.type.opt2")}</option>
-                    <option>{t("contact.form.type.opt3")}</option>
-                    <option>{t("contact.form.type.opt4")}</option>
-                    <option>{t("contact.form.type.opt5")}</option>
-                  </select>
-                </div>
-                <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2 tracking-wider uppercase">{t("contact.form.msg")}</label>
                   <textarea name="message" rows={3} className="w-full bg-gray-50 border-0 border-b-2 border-gray-200 px-0 py-3 outline-none focus:border-primary transition-colors resize-none text-base leading-relaxed"></textarea>
                 </div>
-                <button type="submit" className="bg-[#0a0f0d] text-white font-bold py-4 rounded-full flex items-center justify-center gap-3 hover:bg-[#0a0f0d]/90 transition-colors mt-4 text-base">
+                <button type="submit" className="bg-accent text-white font-bold py-4 rounded-full flex items-center justify-center gap-3 hover:bg-accent/90 transition-colors mt-4 text-base">
                   {t("contact.form.btn")} <Send size={18} />
                 </button>
               </form>
@@ -134,13 +122,13 @@ export const ContactContent = () => {
                 </div>
               </div>
 
-              <div className="bg-[#25D366]/10 border border-[#25D366]/20 p-8 rounded-2xl mt-auto">
+              <div className="bg-whatsapp/10 border border-whatsapp/20 p-8 rounded-2xl mt-auto">
                 <p className="text-base text-gray-700 mb-5 leading-relaxed">{t("contact.wa.text")}</p>
                 <a
                   href={`https://wa.me/${waMeNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 bg-[#25D366] text-white font-bold px-7 py-3.5 rounded-full hover:scale-[1.03] transition-transform shadow-lg shadow-[#25D366]/30"
+                  className="inline-flex items-center gap-3 bg-whatsapp text-white font-bold px-7 py-3.5 rounded-full hover:scale-[1.03] transition-transform shadow-lg shadow-whatsapp/30"
                 >
                   <MessageCircle size={22} />
                   {t("contact.wa.btn")}

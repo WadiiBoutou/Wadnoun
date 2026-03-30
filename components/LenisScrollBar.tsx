@@ -6,7 +6,7 @@ import { onScrollProgress, scrollTo } from "./lenis-bus";
 const W = 14;   // --scrollbar-width
 const P = 3;    // --scrollbar-padding
 const THUMB_W = W - P * 2; // 8px
-const PISTACHIO = "#c8e63a";
+const PISTACHIO = "var(--color-primary)";
 
 export const LenisScrollBar = () => {
   const [thumbH, setThumbH] = useState(60);
@@ -141,8 +141,8 @@ export const LenisScrollBar = () => {
         style={{
           position: "absolute",
           inset: 0,
-          background: "#fffc",
-          borderLeft: "1px solid #d9d9d9",
+          background: "rgb(var(--color-white-rgb) / 0.8)",
+          borderLeft: "1px solid var(--color-track-border)",
           opacity: gutterVisible ? 1 : 0,
           transition: "opacity 0.3s ease",
           cursor: "default",
@@ -170,7 +170,7 @@ export const LenisScrollBar = () => {
             width: THUMB_W,
             top: 0,
             bottom: 0,
-            background: "#1a1a1a",
+            background: "var(--color-track-thumb)",
             borderRadius: 999,
             boxShadow: `inset 0 0 0 1px ${PISTACHIO}`,
           }}

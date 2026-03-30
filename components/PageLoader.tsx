@@ -72,7 +72,7 @@ export const PageLoader = () => {
       <div className="relative flex flex-col items-center justify-center px-6 text-center">
         <p
           id="loader-page-label"
-          className="font-heading font-extrabold uppercase tracking-[0.4em] text-black drop-shadow-[0_1px_2px_rgba(255,255,255,0.3)]"
+          className="font-heading font-extrabold uppercase tracking-[0.4em] text-black drop-shadow-[0_1px_2px_rgb(var(--color-white-rgb)/0.3)]"
           style={{
             fontSize: "clamp(1.8rem, 3vw, 3rem)",
           }}

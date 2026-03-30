@@ -112,7 +112,7 @@ export const ServicesScrollCarousel = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-[#0a0a0a]"
+      className="relative bg-accent-soft"
       style={{ height: "600vh" }}
     >
       <div
@@ -124,7 +124,7 @@ export const ServicesScrollCarousel = () => {
           <div
             key={i}
             data-card
-            className="absolute left-1/2 rounded-xl overflow-hidden bg-[#0a0a0a] shadow-2xl"
+            className="absolute left-1/2 rounded-xl overflow-hidden bg-accent-soft shadow-2xl"
             style={{
               width: `${CARD_W_VW}vw`,
               height: `${CARD_H_VH}vh`,
@@ -132,7 +132,7 @@ export const ServicesScrollCarousel = () => {
               transform: "translateX(-50%)",
               transformOrigin: "50% 0%",
               zIndex: i === 0 ? 9 : i === 1 ? 10 : i,
-              boxShadow: "0 24px 48px rgba(0,0,0,0.4)",
+              boxShadow: "0 24px 48px rgb(var(--color-black-rgb) / 0.4)",
             }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}

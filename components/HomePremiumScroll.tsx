@@ -236,7 +236,13 @@ export const HomePremiumScroll = () => {
         >
           <div className="sticky top-0 h-screen flex items-center">
             {/* Ambient gradients */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(180,206,73,0.18),transparent_50%),radial-gradient(ellipse_at_bottom,_rgba(55,71,182,0.28),transparent_55%)]" />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(ellipse at top, rgb(var(--color-primary-rgb) / 0.18), transparent 50%), radial-gradient(ellipse at bottom, rgb(var(--color-secondary-rgb) / 0.28), transparent 55%)",
+              }}
+            />
             <div className="absolute inset-0 bg-gradient-to-b from-black via-black/70 to-black" />
 
             {/* Cinematic reveal image (same asset, editorial masks) */}

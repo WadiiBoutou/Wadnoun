@@ -59,7 +59,7 @@ export const ServicesContent = () => {
 
       {/* Hero */}
       <section data-navbar="dark" className="pt-40 pb-32 bg-white text-center px-6">
-        <h1 className="reveal opacity-0 translate-y-10 blur-[18px] text-5xl md:text-8xl font-heading font-extrabold text-primary mb-8">{t("services.hero.title")}</h1>
+        <h1 className="reveal opacity-0 translate-y-10 blur-[18px] text-5xl md:text-8xl font-heading font-extrabold text-secondary mb-8">{t("services.hero.title")}</h1>
         <p className="reveal opacity-0 translate-y-8 blur-[18px] text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto">{t("services.hero.subtitle")}</p>
       </section>
 
@@ -103,7 +103,7 @@ export const ServicesContent = () => {
           <section
             key={idx}
             data-navbar={isEven ? "dark" : "light"}
-            className={`py-20 md:py-24 ${isEven ? "bg-white" : "bg-[#040404]"}`}
+            className={`py-20 md:py-24 ${isEven ? "bg-white" : "bg-accent-deep"}`}
           >
             <div className="container mx-auto px-6">
               <article className="grid md:grid-cols-2 gap-8 lg:gap-16 items-center max-w-7xl mx-auto">
@@ -130,7 +130,7 @@ export const ServicesContent = () => {
                     <p className={`text-base md:text-lg leading-relaxed mb-8 ${isEven ? "text-gray-500" : "text-white/60"}`}>
                       {t(`services.s${idx}.text`)}
                     </p>
-                    <div className="text-sm font-bold uppercase tracking-[0.2em] text-primary">
+                    <div className={`text-sm font-bold uppercase tracking-[0.2em] ${isEven ? "text-secondary" : "text-primary"}`}>
                       {t(`services.s${idx}.tags`)}
                     </div>
                   </div>
@@ -144,12 +144,12 @@ export const ServicesContent = () => {
       {/* Offres — accent */}
       <section data-navbar="dark" className="py-40 bg-primary">
         <div className="container mx-auto px-6">
-          <h2 className="reveal opacity-0 translate-y-8 text-4xl md:text-7xl font-heading font-extrabold text-[#0a0f0d] mb-20 text-center">{t("services.prices.title")}</h2>
+          <h2 className="reveal opacity-0 translate-y-8 text-4xl md:text-7xl font-heading font-extrabold text-accent mb-20 text-center">{t("services.prices.title")}</h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {[1, 2, 3].map(i => (
-              <div key={i} className="reveal opacity-0 translate-y-8 bg-[#0a0f0d]/10 p-10 rounded-2xl border border-[#0a0f0d]/10 hover:bg-[#0a0f0d]/15 transition-colors">
-                <h3 className="text-xl font-bold font-heading mb-6 text-[#0a0f0d]">{t(`services.prices.${i}.title`)}</h3>
-                <p className="text-[#0a0f0d]/60 leading-relaxed text-lg">{t(`services.prices.${i}.text`)}</p>
+              <div key={i} className="reveal opacity-0 translate-y-8 bg-accent/10 p-10 rounded-2xl border border-accent/10 hover:bg-accent/15 transition-colors">
+                <h3 className="text-xl font-bold font-heading mb-6 text-accent">{t(`services.prices.${i}.title`)}</h3>
+                <p className="text-accent/60 leading-relaxed text-lg">{t(`services.prices.${i}.text`)}</p>
               </div>
             ))}
           </div>
@@ -157,10 +157,10 @@ export const ServicesContent = () => {
       </section>
 
       {/* CTA */}
-      <section data-navbar="light" className="py-40 bg-[#0a0f0d] text-center">
+      <section data-navbar="light" className="py-40 bg-accent text-center">
         <div className="container mx-auto px-6 max-w-3xl">
           <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl font-heading font-bold mb-14 text-white">{t("services.cta.text")}</h2>
-          <Link href="/contact" className="reveal opacity-0 translate-y-6 inline-flex items-center gap-3 bg-primary text-[#0a0f0d] font-bold px-12 py-5 rounded-full hover:scale-105 transition-transform text-lg">
+          <Link href="/contact" className="reveal opacity-0 translate-y-6 inline-flex items-center gap-3 bg-primary text-accent font-bold px-12 py-5 rounded-full hover:scale-105 transition-transform text-lg">
             {t("services.cta.btn")} <Zap size={20} />
           </Link>
         </div>

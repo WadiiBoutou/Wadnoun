@@ -1,15 +1,16 @@
-﻿"use client";
+"use client";
 
 import { useState, useRef, useEffect } from "react";
 import { useLanguage } from "./LanguageProvider";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import gsap from "gsap";
 
-const PISTACHIO = "#c8e63a";
+const PISTACHIO = "var(--color-primary)";
 
 const drawerSweepGradient =
-  "linear-gradient(to right, rgba(223,255,92,0.8), rgba(223,255,92,0.592) 19%, rgba(223,255,92,0.43) 34%, rgba(223,255,92,0.306) 47%, rgba(223,255,92,0.157) 65%, rgba(223,255,92,0.06) 80%, rgba(223,255,92,0) 98%)";
+  "linear-gradient(to right, rgb(var(--color-primary-rgb) / 0.8), rgb(var(--color-primary-rgb) / 0.592) 19%, rgb(var(--color-primary-rgb) / 0.43) 34%, rgb(var(--color-primary-rgb) / 0.306) 47%, rgb(var(--color-primary-rgb) / 0.157) 65%, rgb(var(--color-primary-rgb) / 0.06) 80%, rgb(var(--color-primary-rgb) / 0) 98%)";
 
 const TRANSITION = "color 0.3s ease, filter 0.3s ease";
 
@@ -27,10 +28,10 @@ export const Navbar = () => {
   const [navTheme, setNavTheme] = useState<"light" | "dark">("light");
 
   const isDark = navTheme === "dark";
-  const elemColor = isDark ? "#0e1a0a" : "#ffffff";
+  const elemColor = isDark ? "var(--color-accent-contrast)" : "rgb(var(--color-white-rgb))";
   const logoFilter = isDark
-    ? "brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.22))"
-    : "brightness(0) invert(1) drop-shadow(0 0 12px rgba(255,255,255,0.55))";
+    ? "brightness(0) drop-shadow(0 0 10px rgb(var(--color-black-rgb) / 0.22))"
+    : "brightness(0) invert(1) drop-shadow(0 0 12px rgb(var(--color-white-rgb) / 0.55))";
 
   useEffect(() => {
     const measure = () => {
@@ -147,7 +148,7 @@ export const Navbar = () => {
             type="button"
             onClick={toggleLang}
             className="text-[11px] hover:opacity-70 transition-opacity tracking-widest font-bold"
-            style={{ filter: isDark ? "drop-shadow(0 0 8px rgba(0,0,0,0.18))" : "drop-shadow(0 0 8px rgba(255,255,255,0.3))" }}
+            style={{ filter: isDark ? "drop-shadow(0 0 8px rgb(var(--color-black-rgb) / 0.18))" : "drop-shadow(0 0 8px rgb(var(--color-white-rgb) / 0.3))" }}
             aria-label={language === "fr" ? "Switch to Arabic" : "Passer en français"}
           >
             <span className={language === "fr" ? "opacity-100" : "opacity-40"}>FR</span>
@@ -157,12 +158,14 @@ export const Navbar = () => {
         </div>
 
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-auto">
-          <Link href="/" className="block w-[72px] transition-transform hover:scale-105">
-            <img
-              src="/LOGO-2.webp"
+          <Link href="/" className="block w-[120px] h-[90px] transition-transform hover:scale-105">
+            <Image
+              src="/LOGO-1.png"
               alt="WadNoun SARL"
-              className="w-full h-auto object-contain"
-              style={{ filter: logoFilter, transition: TRANSITION }}
+              width={120}
+              height={90}
+              className="w-full h-full object-contain"
+              style={{ transition: TRANSITION }}
             />
           </Link>
         </div>
@@ -172,7 +175,7 @@ export const Navbar = () => {
             type="button"
             onClick={() => setIsDrawerOpen(true)}
             className="hover:opacity-70 transition-opacity"
-            style={{ filter: isDark ? "drop-shadow(0 0 8px rgba(0,0,0,0.18))" : "drop-shadow(0 0 8px rgba(255,255,255,0.3))" }}
+            style={{ filter: isDark ? "drop-shadow(0 0 8px rgb(var(--color-black-rgb) / 0.18))" : "drop-shadow(0 0 8px rgb(var(--color-white-rgb) / 0.3))" }}
             aria-label="Open menu"
           >
             <Menu className="w-6 h-6" strokeWidth={1.5} />
@@ -244,7 +247,7 @@ export const Navbar = () => {
               key={link.href}
               href={link.href}
               onClick={closeDrawer}
-              className={`nav-item flex items-center justify-between group text-[#0e1a0a] font-heading font-semibold text-4xl py-5 opacity-0 transition-all duration-300 hover:pl-3 ${
+              className={`nav-item flex items-center justify-between group text-accent-contrast font-heading font-semibold text-4xl py-5 opacity-0 transition-all duration-300 hover:pl-3 ${
                 i < navLinks.length - 1 ? "border-b border-black/15" : ""
               }`}
             >
@@ -279,7 +282,7 @@ export const Navbar = () => {
           opacity: isDrawerOpen ? 1 : 0,
         }}
       >
-        <X className="w-4 h-4 text-[#0e1a0a]" strokeWidth={2.5} />
+        <X className="w-4 h-4 text-accent-contrast" strokeWidth={2.5} />
       </button>
     </div>
   );

@@ -79,7 +79,7 @@ export const TestingAnimations = () => {
       <div className="solar-section w-full h-screen flex flex-col items-center justify-center relative bg-yellow-50 shadow-inner">
         <h2 className="absolute top-20 text-3xl font-bold text-gray-800">2. Solar Panel (Scroll to Light Up)</h2>
         
-        <div className="relative w-full max-w-2xl aspect-[16/9] rounded-xl overflow-hidden shadow-2xl border-8 border-slate-800 bg-[#0a192f] transform -rotate-12 hover:rotate-0 transition-transform duration-1000 mt-20">
+        <div className="relative w-full max-w-2xl aspect-[16/9] rounded-xl overflow-hidden shadow-2xl border-8 border-slate-800 bg-[var(--color-accent)] transform -rotate-12 hover:rotate-0 transition-transform duration-1000 mt-20">
           
           {/* Solar Grid Simulation */}
           <div className="absolute inset-0 grid grid-cols-8 grid-rows-4 gap-1 p-2">

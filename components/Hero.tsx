@@ -9,7 +9,7 @@ import Link from "next/link";
 
 const SplineScene = dynamic(() => import("./SplineScene").then(m => m.SplineScene), {
   ssr: false,
-  loading: () => <div className="absolute inset-0 bg-[#0a0f0d]" />
+  loading: () => <div className="absolute inset-0 bg-accent" />
 });
 
 export const Hero = () => {
@@ -25,18 +25,18 @@ export const Hero = () => {
   }, { scope: container });
 
   return (
-    <section ref={container} data-navbar="light" className="relative w-full min-h-screen bg-[#0a0f0d] flex flex-col justify-center overflow-hidden">
+    <section ref={container} data-navbar="light" className="relative w-full min-h-screen bg-accent flex flex-col justify-center overflow-hidden">
       {/* 3D Spline Backdrop with scroll fix */}
       <SplineScene isArabic={language === "ar"} />
 
       {/* Shadow Overlays */}
       <div className="absolute inset-0 z-[1] pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f0d]/60 via-transparent to-[#0a0f0d] opacity-100 mix-blend-multiply"></div>
-        <div className="absolute inset-0 bg-[#0a0f0d]/30"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-accent/60 via-transparent to-accent opacity-100 mix-blend-multiply"></div>
+        <div className="absolute inset-0 bg-accent/30"></div>
       </div>
 
       {/* Content container now has pointer-events-none to let you 'reach through' to the Spline backdrop */}
-      <div className="relative z-10 container mx-auto px-6 pt-32 pb-20 pointer-events-none">
+      <div className="relative z-10 container mx-auto px-8 sm:px-10 md:px-12 lg:px-16 pt-32 pb-20 pointer-events-none">
         {/* Giant heading — Style matches home hero */}
         <div className="max-w-6xl">
           <h1 className="font-heading font-semibold leading-[0.95] tracking-tight text-white select-none">
@@ -58,7 +58,7 @@ export const Hero = () => {
 
         {/* Individual buttons keep pointer-events-auto so you can still click them */}
         <div className="flex flex-col sm:flex-row gap-4 mt-12">
-          <Link href="/services" className="hero-cta opacity-0 translate-y-6 bg-primary text-[#0a0f0d] font-bold px-7 py-3.5 md:px-8 md:py-4 rounded-full hover:bg-primary/90 transition-all text-center text-sm md:text-base pointer-events-auto">
+          <Link href="/services" className="hero-cta opacity-0 translate-y-6 bg-primary text-accent font-bold px-7 py-3.5 md:px-8 md:py-4 rounded-full hover:bg-primary/90 transition-all text-center text-sm md:text-base pointer-events-auto">
             {t("home.hero.cta1")}
           </Link>
           <Link href="/contact" className="hero-cta opacity-0 translate-y-6 border border-white/30 text-white font-bold px-7 py-3.5 md:px-8 md:py-4 rounded-full hover:bg-white/5 transition-all text-center text-sm md:text-base pointer-events-auto">

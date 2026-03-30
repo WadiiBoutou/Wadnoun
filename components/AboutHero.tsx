@@ -30,7 +30,7 @@ export const AboutHero = () => {
   ];
 
   return (
-    <section ref={container} data-navbar="light" className="relative w-full min-h-screen bg-[#0a0f0d] flex flex-col justify-center overflow-hidden">
+    <section ref={container} data-navbar="light" className="relative w-full min-h-screen bg-accent flex flex-col justify-center overflow-hidden">
       {/* Background image with overlay */}
       <div className="absolute inset-0">
         <img 
@@ -38,7 +38,7 @@ export const AboutHero = () => {
           alt="" 
           className="w-full h-full object-cover opacity-30"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f0d]/60 via-transparent to-[#0a0f0d]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-accent/60 via-transparent to-accent"></div>
       </div>
 
       <div className="relative z-10 container mx-auto px-6 md:px-16 pt-32 pb-20">

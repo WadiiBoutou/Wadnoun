@@ -45,7 +45,7 @@ const MethodeAccordion = ({ t }: { t: (key: string) => string }) => {
             className={`relative flex flex-col justify-end lg:justify-start 
                         px-6 lg:px-8 py-8 lg:py-10 overflow-hidden cursor-default
                         border-b lg:border-b-0 lg:border-r border-gray-100 last:border-0 min-h-[300px] lg:min-h-0
-                        ${isActive ? "bg-[#0a0f0d] z-10 shadow-2xl" : "bg-[#fbfbfb] z-0"}`}
+                        ${isActive ? "bg-accent z-10 shadow-2xl" : "bg-surface-soft z-0"}`}
           >
             {/* Background Image */}
             <div 
@@ -68,7 +68,7 @@ const MethodeAccordion = ({ t }: { t: (key: string) => string }) => {
               className="absolute bottom-6 right-6 lg:bottom-4 lg:right-6
                          text-[4rem] lg:text-[5rem] font-black font-heading pointer-events-none select-none z-10
                          transition-colors duration-500 leading-none"
-              style={{ color: isActive ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)" }}
+              style={{ color: isActive ? "rgb(var(--color-white-rgb) / 0.04)" : "rgb(var(--color-black-rgb) / 0.04)" }}
             >
               0{i}
             </span>
@@ -101,7 +101,7 @@ const MethodeAccordion = ({ t }: { t: (key: string) => string }) => {
                  {/* Title */}
                  <h3
                    className="font-heading font-extrabold text-lg lg:text-xl transition-colors duration-400 whitespace-nowrap lg:whitespace-normal mb-2 lg:mb-4"
-                   style={{ color: isActive ? "#ffffff" : "#111827" }}
+                  style={{ color: isActive ? "rgb(var(--color-white-rgb))" : "rgb(var(--foreground-rgb, 17 24 39))" }}
                  >
                    {t(`home.process.${i}`)}
                  </h3>
@@ -215,7 +215,7 @@ export const HomeContent = () => {
     <div ref={ref} className="w-full text-gray-800">
 
       {/* Stats Band — full width dark */}
-      <section data-navbar="light" className="bg-[#0a0f0d] py-20 border-t border-white/5">
+      <section data-navbar="light" className="bg-accent py-20 border-t border-white/5">
         <div className="container mx-auto max-w-7xl px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
             {[1, 2, 3, 4].map(i => (
@@ -232,7 +232,7 @@ export const HomeContent = () => {
       <section data-navbar="dark" className="py-40 bg-white">
         <div className="container mx-auto max-w-7xl px-6">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-primary mb-8 md:mb-12 uppercase tracking-tight">
+            <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-secondary mb-8 md:mb-12 uppercase tracking-tight">
               {t("home.mission.title")}
             </h2>
             <p className="reveal opacity-0 translate-y-8 text-base md:text-xl lg:text-2xl text-gray-500 leading-relaxed max-w-3xl mx-auto">
@@ -252,8 +252,8 @@ export const HomeContent = () => {
           sizes="100vw"
           unoptimized
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0f0d]/70 via-transparent to-[#0a0f0d]/40 z-10" />
-        <div className="absolute inset-0 z-20 flex items-center px-6 lg:px-10">
+        <div className="absolute inset-0 bg-gradient-to-r from-accent/70 via-transparent to-accent/40 z-10" />
+        <div className="absolute inset-0 z-20 flex items-center px-8 sm:px-10 md:px-12 lg:px-16">
           <div className="max-w-lg">
             <p className="text-primary text-sm font-bold uppercase tracking-[0.3em] mb-4">{t("home.image1.kicker")}</p>
             <h3 className="text-3xl md:text-5xl font-heading font-black text-white leading-tight">
@@ -264,7 +264,7 @@ export const HomeContent = () => {
       </div>
 
       {/* Nos Domaines — on dark background with 3D Lottie cards */}
-      <section data-navbar="light" className="py-24 md:py-40 bg-[#0a0f0d]">
+      <section data-navbar="light" className="py-24 md:py-40 bg-accent">
         <div className="container mx-auto max-w-7xl px-6">
           <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-white mb-16 md:mb-20 text-center uppercase tracking-tight">
             {t("home.domains.title")}
@@ -278,7 +278,7 @@ export const HomeContent = () => {
                 className="reveal opacity-0 translate-y-8 bg-white/[0.03] border border-white/10 rounded-[2rem] p-8 md:p-10 
                            transition-all duration-500 ease-out cursor-default group 
                            hover:bg-white/[0.06] hover:border-primary/40 
-                           hover:-translate-y-6 md:hover:-translate-y-8 hover:rotate-x-3 hover:shadow-[0_45px_100px_rgba(0,0,0,0.8)]
+                           hover:-translate-y-6 md:hover:-translate-y-8 hover:rotate-x-3 hover:shadow-[0_45px_100px_rgb(var(--color-black-rgb)/0.8)]
                            [transform-style:preserve-3d]"
               >
                 {/* Header: Free icon + Title on the same line */}
@@ -320,7 +320,7 @@ export const HomeContent = () => {
               unoptimized
             />
           </div>
-          <div className="img-street-text opacity-0 flex items-center bg-[#0a0f0d] px-6 lg:px-12 py-20">
+          <div className="img-street-text opacity-0 flex items-center bg-accent px-6 lg:px-12 py-20">
             <div>
               <p className="text-primary text-sm font-bold uppercase tracking-[0.3em] mb-6">{t("home.image2.kicker")}</p>
               <h3 className="text-2xl md:text-4xl lg:text-5xl font-heading font-black text-white leading-tight mb-8">
@@ -344,7 +344,7 @@ export const HomeContent = () => {
         style={{ userSelect: "text", WebkitUserSelect: "text" }}
       >
         <div className="container mx-auto max-w-7xl px-6">
-          <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-7xl font-heading font-extrabold text-[#0a0f0d] mb-16 md:mb-20 uppercase tracking-tight select-text">{t("home.why.title")}</h2>
+          <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-7xl font-heading font-extrabold text-accent mb-16 md:mb-20 uppercase tracking-tight select-text">{t("home.why.title")}</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
             {[1, 2, 3, 4, 5].map(i => (
               <div key={i} className="reveal opacity-0 translate-y-8">
@@ -355,7 +355,7 @@ export const HomeContent = () => {
                   {renderTitleWithoutNumber(t(`home.why.${i}.title`))}
                 </h3>
                 <p
-                  className="text-[#0a0f0d]/60 leading-relaxed select-text"
+                  className="text-accent/60 leading-relaxed select-text"
                   style={{ userSelect: "text", WebkitUserSelect: "text", pointerEvents: "auto" }}
                 >
                   {t(`home.why.${i}.text`)}
@@ -369,7 +369,7 @@ export const HomeContent = () => {
       {/* Notre Méthode — Interactive Accordion */}
       <section data-navbar="dark" className="py-24 md:py-40 bg-white">
         <div className="container mx-auto max-w-7xl px-6">
-          <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-center text-gray-900 mb-16 md:mb-20 uppercase tracking-tight">{t("home.process.title")}</h2>
+          <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-center text-secondary mb-16 md:mb-20 uppercase tracking-tight">{t("home.process.title")}</h2>
 
           <div className="max-w-7xl mx-auto">
             <MethodeAccordion t={t} />
@@ -389,8 +389,8 @@ export const HomeContent = () => {
             unoptimized
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f0d]/80 via-[#0a0f0d]/20 to-transparent z-10" />
-        <div className="absolute bottom-12 left-6 lg:left-12 z-20">
+        <div className="absolute inset-0 bg-gradient-to-t from-accent/80 via-accent/20 to-transparent z-10" />
+        <div className="absolute bottom-12 left-8 sm:left-10 md:left-12 lg:left-16 xl:left-20 z-20">
           <p className="text-primary text-sm font-bold uppercase tracking-[0.3em] mb-3">{t("home.image3.kicker")}</p>
           <h3 className="text-3xl md:text-4xl lg:text-5xl font-heading font-black text-white uppercase tracking-tight">
             {t("home.image3.title")}
@@ -399,7 +399,7 @@ export const HomeContent = () => {
       </div>
 
       {/* Testimonials — dark */}
-      <section data-navbar="light" className="py-40 bg-[#0a0f0d]">
+      <section data-navbar="light" className="py-40 bg-accent">
         <div className="container mx-auto max-w-7xl px-6">
           <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-white mb-16 md:mb-20 text-center uppercase tracking-tight">{t("home.tests.title")}</h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -415,11 +415,11 @@ export const HomeContent = () => {
       </section>
 
       {/* Final CTA (Green bg, White navbar) */}
-      <section data-navbar="light" className="py-40 bg-primary text-[#0a0f0d] text-center">
+      <section data-navbar="light" className="py-40 bg-primary text-accent text-center">
         <div className="container mx-auto px-6 max-w-3xl">
           <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl lg:text-6xl font-heading font-black mb-10 md:mb-8 uppercase tracking-tight">{t("home.cta.title")}</h2>
-          <p className="reveal opacity-0 translate-y-6 text-base md:text-xl mb-12 md:mb-14 font-medium text-[#0a0f0d]/70">{t("home.cta.text")}</p>
-          <Link href="/contact" className="reveal opacity-0 translate-y-6 inline-flex items-center gap-3 bg-[#0a0f0d] text-white font-bold px-12 py-5 rounded-full hover:scale-105 transition-transform text-lg">
+          <p className="reveal opacity-0 translate-y-6 text-base md:text-xl mb-12 md:mb-14 font-medium text-accent/70">{t("home.cta.text")}</p>
+          <Link href="/contact" className="reveal opacity-0 translate-y-6 inline-flex items-center gap-3 bg-accent text-white font-bold px-12 py-5 rounded-full hover:scale-105 transition-transform text-lg">
             {t("home.cta.btn")} <ChevronRight size={20} />
           </Link>
         </div>

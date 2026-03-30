@@ -227,7 +227,13 @@ export const HomeBreakthroughLike = () => {
           aria-hidden="true"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-black" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(180,206,73,0.22),transparent_52%)]" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse at top, rgb(var(--color-primary-rgb) / 0.22), transparent 52%)",
+          }}
+        />
 
         <div className="relative container mx-auto px-6 md:px-12 py-24">
           <div className="max-w-3xl">

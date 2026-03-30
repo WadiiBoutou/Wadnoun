@@ -69,7 +69,7 @@ export const AboutContent = () => {
     <div ref={ref} className="w-full">
 
       {/* History + Image 1 — transformer station slides in from right */}
-      <section data-navbar="light" className="py-0 bg-[#0a0f0d] overflow-hidden">
+      <section data-navbar="light" className="py-0 bg-accent overflow-hidden">
         <div className="grid md:grid-cols-2 min-h-[60vh]">
           <div className="flex items-center px-10 md:px-20 py-28">
             <div>
@@ -86,7 +86,7 @@ export const AboutContent = () => {
               sizes="50vw"
               unoptimized
             />
-            <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#0a0f0d]/20" />
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent to-accent/20" />
           </div>
         </div>
       </section>
@@ -94,13 +94,13 @@ export const AboutContent = () => {
       {/* Values — accent */}
       <section data-navbar="dark" className="py-40 bg-primary">
         <div className="container mx-auto px-6">
-          <h2 className="reveal opacity-0 translate-y-8 text-4xl md:text-7xl font-heading font-extrabold text-[#0a0f0d] mb-20 text-center">{t("about.values.title")}</h2>
+          <h2 className="reveal opacity-0 translate-y-8 text-4xl md:text-7xl font-heading font-extrabold text-accent mb-20 text-center">{t("about.values.title")}</h2>
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {[1, 2, 3, 4].map(i => (
-              <div key={i} className="reveal opacity-0 translate-y-8 bg-[#0a0f0d]/10 p-10 rounded-2xl border border-[#0a0f0d]/10">
-                <div className="text-white/60 mb-6">{icons[i - 1]}</div>
-                <h3 className="text-2xl font-bold font-heading mb-4 text-[#0a0f0d]">{t(`about.values.${i}.title`)}</h3>
-                <p className="text-[#0a0f0d]/60 leading-relaxed">{t(`about.values.${i}.text`)}</p>
+              <div key={i} className="reveal opacity-0 translate-y-8 bg-accent/10 p-10 rounded-2xl border border-accent/10">
+                <div className="text-secondary mb-6">{icons[i - 1]}</div>
+                <h3 className="text-2xl font-bold font-heading mb-4 text-accent">{t(`about.values.${i}.title`)}</h3>
+                <p className="text-accent/60 leading-relaxed">{t(`about.values.${i}.text`)}</p>
               </div>
             ))}
           </div>
@@ -122,7 +122,7 @@ export const AboutContent = () => {
                   unoptimized
                 />
               </div>
-              <h2 className="reveal opacity-0 translate-y-6 text-3xl md:text-5xl font-heading font-bold text-gray-900 mb-6">{t("about.team.title")}</h2>
+              <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl font-heading font-bold text-secondary mb-6">{t("about.team.title")}</h2>
               <p className="reveal opacity-0 translate-y-6 text-lg text-gray-500 leading-relaxed">{t("about.team.text")}</p>
             </div>
 
@@ -137,7 +137,7 @@ export const AboutContent = () => {
                   unoptimized
                 />
               </div>
-              <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl font-heading font-bold text-gray-900 mb-8">{t("about.cert.title")}</h2>
+              <h2 className="reveal opacity-0 translate-y-8 text-3xl md:text-5xl font-heading font-bold text-secondary mb-8">{t("about.cert.title")}</h2>
               <p className="reveal opacity-0 translate-y-8 text-lg text-gray-500 leading-relaxed">{t("about.cert.text")}</p>
             </div>
           </div>
@@ -145,7 +145,7 @@ export const AboutContent = () => {
       </section>
 
       {/* Numbers — dark */}
-      <section data-navbar="light" className="py-40 bg-[#0a0f0d]">
+      <section data-navbar="light" className="py-40 bg-accent">
         <div className="container mx-auto px-6">
           <h2 className="reveal opacity-0 translate-y-8 text-4xl md:text-6xl font-heading font-bold text-white text-center mb-20">{t("about.numbers.title")}</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -171,7 +171,7 @@ export const AboutContent = () => {
             unoptimized
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0f0d]/60 via-transparent to-[#0a0f0d]/80 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-accent/60 via-transparent to-accent/80 z-10" />
         <div className="absolute inset-0 z-20 flex items-center justify-center">
           <p className="text-white/30 text-xs font-bold uppercase tracking-[0.5em]">WadNoun SARL — Maroc</p>
         </div>
@@ -181,7 +181,7 @@ export const AboutContent = () => {
       <section data-navbar="dark" className="py-40 bg-white">
         <div className="container mx-auto px-6 text-center max-w-4xl">
           <Target className="reveal opacity-0 translate-y-6 w-16 h-16 text-primary mx-auto mb-10" />
-          <h2 className="reveal opacity-0 translate-y-8 text-4xl md:text-6xl font-heading font-bold text-gray-900 mb-10">{t("about.vision.title")}</h2>
+          <h2 className="reveal opacity-0 translate-y-8 text-4xl md:text-6xl font-heading font-bold text-secondary mb-10">{t("about.vision.title")}</h2>
           <p className="reveal opacity-0 translate-y-8 text-xl text-gray-500 leading-relaxed">{t("about.vision.text")}</p>
         </div>
       </section>

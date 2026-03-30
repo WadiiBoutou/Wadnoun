@@ -118,7 +118,7 @@ export const SplineScene = ({ isArabic = false }: { isArabic?: boolean }) => {
         onLoad={(app) => {
           splineApp.current = app;
         }}
-        className="w-full h-full object-cover scale-110 md:scale-105 bg-[#0a0f0d] placeholder:bg-[#0a0f0d]"
+        className="w-full h-full object-cover scale-110 md:scale-105 bg-accent placeholder:bg-accent"
       />
     </div>
   );
