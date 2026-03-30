@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import gsap from "gsap";
+import { usePathname } from "next/navigation";
 
 const PISTACHIO = "var(--color-primary)";
 
@@ -17,6 +18,7 @@ const TRANSITION = "color 0.3s ease, filter 0.3s ease";
 export const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
+  const pathname = usePathname();
   const drawerRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -29,9 +31,6 @@ export const Navbar = () => {
 
   const isDark = navTheme === "dark";
   const elemColor = isDark ? "var(--color-accent-contrast)" : "rgb(var(--color-white-rgb))";
-  const logoFilter = isDark
-    ? "brightness(0) drop-shadow(0 0 10px rgb(var(--color-black-rgb) / 0.22))"
-    : "brightness(0) invert(1) drop-shadow(0 0 12px rgb(var(--color-white-rgb) / 0.55))";
 
   useEffect(() => {
     const measure = () => {
@@ -92,13 +91,14 @@ export const Navbar = () => {
     const handleScroll = () => evaluateTheme();
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("lenis-scroll", handleScroll, { passive: true });
+    evaluateTheme();
 
     return () => {
       observer.disconnect();
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("lenis-scroll", handleScroll);
     };
-  }, [navHeight]);
+  }, [navHeight, pathname]);
 
   useEffect(() => {
     if (!drawerRef.current || !overlayRef.current) return;
@@ -165,7 +165,7 @@ export const Navbar = () => {
               width={120}
               height={90}
               className="w-full h-full object-contain"
-              style={{ transition: TRANSITION }}
+              style={{ transition: TRANSITION, filter: "none" }}
             />
           </Link>
         </div>
