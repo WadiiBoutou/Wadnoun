@@ -2,6 +2,7 @@
 
 import { useLanguage } from "./LanguageProvider";
 import Link from "next/link";
+import Image from "next/image";
 
 export const Footer = () => {
   const { language, t } = useLanguage();
@@ -12,10 +13,13 @@ export const Footer = () => {
         <div className="grid md:grid-cols-3 gap-16 mb-16">
           <div>
             <Link href="/" className="block w-[120px] h-[90px] mb-6 transition-transform hover:scale-105">
-              <img
+              <Image
                 src="/LOGO-1.png"
                 alt="WadNoun SARL"
                 className="w-full h-full object-contain"
+                width={120}
+                height={90}
+                priority
               />
             </Link>
             <p className="text-white/40 leading-relaxed max-w-sm">

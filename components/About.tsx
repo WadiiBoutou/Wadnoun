@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { useRef } from "react";
+import Image from "next/image";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -93,11 +94,14 @@ export const About = () => {
 
           <div className="w-full md:w-1/2 relative">
             <div className="about-image opacity-0 scale-90 aspect-square md:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl relative">
-               <img 
-                 src="/about.webp" 
-                 alt="Renewable Energy Setup WadNoun" 
-                 className="w-full h-full object-cover"
-               />
+              <Image
+                src="/about.webp"
+                alt="Renewable Energy Setup WadNoun"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+                priority
+              />
                <div className="absolute inset-0 bg-secondary/10 hover:bg-transparent transition-colors duration-500"></div>
             </div>
           </div>

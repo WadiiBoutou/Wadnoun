@@ -76,10 +76,12 @@ const MethodeAccordion = ({ t }: { t: (key: string) => string }) => {
             <div className="relative z-20 w-full flex flex-col items-start text-left h-full justify-between lg:justify-start">
               {/* Icon — SVG at rest, Lottie when active (crossfade) */}
               <div className="relative w-12 h-12 mb-6 lg:mb-8 flex-shrink-0">
-                <img
+                <Image
                   src={PANEL_ASSETS[i - 1].svg}
                   alt=""
-                  className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300"
+                  fill
+                  sizes="48px"
+                  className="object-contain transition-opacity duration-300"
                   style={{
                     opacity: isActive ? 0 : 1,
                     filter: "grayscale(1) brightness(0.6)",

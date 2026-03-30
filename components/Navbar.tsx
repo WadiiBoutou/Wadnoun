@@ -140,6 +140,11 @@ export const Navbar = () => {
     { href: "/contact", label: t("nav.contact") },
   ];
 
+  const isActiveLink = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
+
   return (
     <div className="contents">
       <nav ref={navRef} className="fixed left-0 right-0 top-4 z-50 h-20 flex items-center justify-between px-4 md:px-8 pointer-events-none">
@@ -243,19 +248,32 @@ export const Navbar = () => {
           className={`relative flex flex-col justify-center flex-grow px-10 pt-6 z-10 ${language === "ar" ? "text-right" : "text-left"}`}
         >
           {navLinks.map((link, i) => (
+            (() => {
+              const isActive = isActiveLink(link.href);
+              return (
             <Link
               key={link.href}
               href={link.href}
               onClick={closeDrawer}
-              className={`nav-item flex items-center justify-between group text-accent-contrast font-heading font-semibold text-4xl py-5 opacity-0 transition-all duration-300 hover:pl-3 ${
+              className={`nav-item flex items-center justify-between group font-heading font-semibold text-4xl py-5 opacity-0 transition-all duration-300 hover:pl-3 ${
+                isActive ? "text-white" : "text-accent-contrast"
+              } ${
                 i < navLinks.length - 1 ? "border-b border-black/15" : ""
               }`}
             >
               {link.label}
-              <span className="text-xs font-sans font-normal text-black/30 tracking-widest group-hover:text-black/60 transition-colors">
+              <span
+                className={`text-xs font-sans font-normal tracking-widest transition-colors ${
+                  isActive
+                    ? "text-white/70 group-hover:text-white"
+                    : "text-black/30 group-hover:text-black/60"
+                }`}
+              >
                 0{i + 1}
               </span>
             </Link>
+              );
+            })()
           ))}
         </nav>
 

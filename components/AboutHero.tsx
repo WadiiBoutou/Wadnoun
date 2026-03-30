@@ -4,6 +4,7 @@ import { useLanguage } from "./LanguageProvider";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
+import Image from "next/image";
 
 export const AboutHero = () => {
   const { t } = useLanguage();
@@ -33,10 +34,13 @@ export const AboutHero = () => {
     <section ref={container} data-navbar="light" className="relative w-full min-h-screen bg-accent flex flex-col justify-center overflow-hidden">
       {/* Background image with overlay */}
       <div className="absolute inset-0">
-        <img 
-          src="/about.webp" 
-          alt="" 
-          className="w-full h-full object-cover opacity-30"
+        <Image
+          src="/about.webp"
+          alt=""
+          fill
+          sizes="100vw"
+          priority
+          className="object-cover opacity-30"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-accent/60 via-transparent to-accent"></div>
       </div>

@@ -28,7 +28,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "WadNoun",
+  title: "WadNoun | Travaux d’électrification & infrastructures électriques au Maroc",
   description: "WadNoun SARL : travaux d'électrification, postes de transformation, éclairage public, distribution et contrôle électrique, économie d'énergie. Expertise terrain au Maroc depuis 2014.",
   keywords: "électrification, postes de transformation, éclairage public, distribution électrique, économie d'énergie, infrastructure électrique, Maroc, ONEE, HTA, BT",
   metadataBase: new URL("https://wadnoun.ma"),
